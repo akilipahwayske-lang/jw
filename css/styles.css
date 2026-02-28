@@ -4,19 +4,19 @@
 =================================================== 
 */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@400;600;700;800&display=swap');
 
 :root {
     /* Brand Colors */
-    --color-primary: #162846;
-    /* Navy Blue */
-    --color-primary-hover: #101e35;
-    --color-primary-light: #2c426e;
+    --color-primary: #14213D;
+    /* Deep Navy */
+    --color-primary-hover: #0d1629;
+    --color-primary-light: #1f335e;
 
-    --color-secondary: #F5A60D;
-    /* Golden Yellow */
-    --color-secondary-hover: #d48e02;
-    --color-secondary-light: #fff5e0;
+    --color-secondary: #F4B942;
+    /* Intellectual Yellow */
+    --color-secondary-hover: #dfa42f;
+    --color-secondary-light: #fef4e2;
 
     /* Typography Colors */
     --text-dark: #0f172a;
@@ -25,9 +25,9 @@
     --text-white: #ffffff;
 
     /* Backgrounds & Borders */
-    --bg-white: #ffffff;
+    --bg-white: #FFFFFF;
     --bg-light: #f8fafc;
-    --bg-overlay: rgba(22, 40, 70, 0.95);
+    --bg-overlay: rgba(20, 33, 61, 0.95);
     --border-color: #e2e8f0;
 
     /* Shadows */
@@ -35,7 +35,7 @@
     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
     --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    --shadow-golden: 0 10px 20px -5px rgba(245, 166, 13, 0.4);
+    --shadow-golden: 0 10px 20px -5px rgba(244, 185, 66, 0.4);
 
     /* Transitions */
     --transition-fast: 0.15s ease-in-out;
@@ -56,7 +56,7 @@
 }
 
 html {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     color: var(--text-base);
     background-color: var(--bg-light);
     scroll-behavior: smooth;
@@ -68,7 +68,7 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Playfair Display', serif;
     color: var(--text-dark);
     line-height: 1.2;
 }
@@ -136,7 +136,7 @@ ul {
     border: none;
     cursor: pointer;
     transition: all var(--transition-normal);
-    font-family: 'Inter', sans-serif;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .btn-primary {
@@ -188,18 +188,51 @@ ul {
     justify-content: space-between;
 }
 
+/* Logo Styling */
+.brand-logo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    position: relative;
+    padding-top: 8px;
+}
+
+.brand-wave {
+    position: absolute;
+    top: -4px;
+    left: 48%;
+    /* Roughly over the W */
+    transform: translateX(-50%);
+    width: 50px;
+    height: 12px;
+    fill: var(--color-secondary);
+}
+
 .brand-logo {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    font-family: 'Outfit', sans-serif;
-    font-size: 1.75rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
     font-weight: 800;
     color: var(--color-primary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    line-height: 1;
 }
 
 .brand-logo span {
+    font-weight: 400;
+}
+
+.brand-tagline {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 4px;
     color: var(--color-secondary);
+    text-transform: uppercase;
+    margin-top: 6px;
+    margin-left: 4px;
 }
 
 .nav-links {
@@ -647,15 +680,17 @@ ul {
 }
 
 .footer-brand {
-    margin-bottom: 1.5rem;
-    font-family: 'Outfit', sans-serif;
+    margin-bottom: 0.5rem;
+    font-family: 'Playfair Display', serif;
     font-size: 1.75rem;
     font-weight: 800;
     color: var(--text-white);
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .footer-brand span {
-    color: var(--color-secondary);
+    font-weight: 400;
 }
 
 .footer-logo-text {
@@ -666,6 +701,7 @@ ul {
     margin-top: -5px;
     margin-left: 2px;
     text-transform: uppercase;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .footer p {

@@ -6,7 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Us - JobWhisper | Moving Brains</title>
 
-    <!-- CSS -->
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+<!-- CSS -->
     <link rel="stylesheet" href="css/styles.css">
 
     <!-- Icons (Lucide via CDN) -->
@@ -21,12 +24,13 @@
     <!-- ================= NAVBAR ================= -->
     <nav class="navbar">
         <div class="container">
-            <a href="index.html" class="brand-logo">
-                <img src="jobwhisper-logo.png" alt="JobWhisper"
-                    style="height: 40px; margin-right: 10px; object-fit: contain;"
-                    onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                <span style="display:none;">JOB<span>WHISPER</span></span>
-            </a>
+            <a href="index.html" class="brand-logo-container">
+        <svg class="brand-wave" viewBox="0 0 40 10" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0 8 Q 10 0, 20 5 T 40 5 L 40 10 Q 30 10, 20 5 T 0 10 Z" />
+        </svg>
+        <div class="brand-logo">JOB<span>WHISPER</span></div>
+        <div class="brand-tagline">MOVING BRAINS</div>
+      </a>
 
             <div class="nav-links">
                 <a href="index.html">Home</a>
@@ -153,8 +157,13 @@
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-col" style="grid-column: span 1;">
-                    <a href="index.html" class="footer-brand">JOB<span>WHISPER</span></a>
-                    <span class="footer-logo-text">Moving Brains</span>
+                    <a href="index.html" class="brand-logo-container" style="align-items: flex-start; margin-bottom: 1.5rem;">
+            <svg class="brand-wave" viewBox="0 0 40 10" xmlns="http://www.w3.org/2000/svg" style="left: 35%;">
+              <path d="M0 8 Q 10 0, 20 5 T 40 5 L 40 10 Q 30 10, 20 5 T 0 10 Z" />
+            </svg>
+            <div class="footer-brand">JOB<span>WHISPER</span></div>
+            <div class="footer-logo-text">Moving Brains</div>
+          </a>
                     <p style="margin-top: 1rem;">Your ultimate destination for finding your dream job. We connect talent
                         with opportunities worldwide safely and intuitively.</p>
                     <div class="social-links">

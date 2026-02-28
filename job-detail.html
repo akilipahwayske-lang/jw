@@ -6,7 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Senior Frontend Developer - JobWhisper</title>
 
-    <link rel="stylesheet" href="css/styles.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="stylesheet" href="css/styles.css">
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
@@ -150,12 +153,13 @@
     <!-- NAVBAR -->
     <nav class="navbar" style="position: relative; z-index: 1000;">
         <div class="container">
-            <a href="index.html" class="brand-logo">
-                <img src="jobwhisper-logo.png" alt="JobWhisper"
-                    style="height: 40px; margin-right: 10px; object-fit: contain;"
-                    onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                <span style="display:none;">JOB<span>WHISPER</span></span>
-            </a>
+            <a href="index.html" class="brand-logo-container">
+        <svg class="brand-wave" viewBox="0 0 40 10" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0 8 Q 10 0, 20 5 T 40 5 L 40 10 Q 30 10, 20 5 T 0 10 Z" />
+        </svg>
+        <div class="brand-logo">JOB<span>WHISPER</span></div>
+        <div class="brand-tagline">MOVING BRAINS</div>
+      </a>
             <div class="nav-links">
                 <a href="index.html">Home</a>
                 <a href="jobs.html" style="color: var(--color-primary); font-weight: 700;">Find Jobs</a>

@@ -1,25 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>JobWhisper - Moving Brains | Find Your Dream Job</title>
-  
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
   <!-- CSS -->
   <link rel="stylesheet" href="css/styles.css">
-  
+
   <!-- Icons (Lucide via CDN) -->
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
+
 <body>
 
   <!-- ================= NAVBAR ================= -->
   <nav class="navbar">
     <div class="container">
       <!-- Logo -->
-      <a href="index.html" class="brand-logo">
-        <img src="jobwhisper-logo.png" alt="JobWhisper" style="height: 40px; margin-right: 10px; object-fit: contain;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-        <span style="display:none;">JOB<span>WHISPER</span></span>
+      <a href="index.html" class="brand-logo-container">
+        <svg class="brand-wave" viewBox="0 0 40 10" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0 8 Q 10 0, 20 5 T 40 5 L 40 10 Q 30 10, 20 5 T 0 10 Z" />
+        </svg>
+        <div class="brand-logo">JOB<span>WHISPER</span></div>
+        <div class="brand-tagline">MOVING BRAINS</div>
       </a>
 
       <!-- Desktop Links -->
@@ -46,8 +54,9 @@
   <header class="hero">
     <div class="container text-center">
       <h1 class="hero-title">Find the perfect <span>Job</span> that fits your life</h1>
-      <p class="hero-subtitle">Discover thousands of job opportunities matching your skills, experience, and lifestyle. Join JobWhisper and start moving brains today!</p>
-      
+      <p class="hero-subtitle">Discover thousands of job opportunities matching your skills, experience, and lifestyle.
+        Join JobWhisper and start moving brains today!</p>
+
       <!-- Search Box -->
       <form class="search-box" action="jobs.html" method="GET">
         <div class="search-input-group">
@@ -76,7 +85,7 @@
   <section class="container my-4 text-center">
     <h2 class="section-title">Popular Job Categories</h2>
     <p class="section-subtitle">Explore open positions across different industries</p>
-    
+
     <div class="categories-grid">
       <!-- Category 1 -->
       <div class="category-card" onclick="window.location.href='jobs.html?category=design'">
@@ -114,9 +123,10 @@
         <p>4,100 open positions</p>
       </div>
     </div>
-    
+
     <div class="mt-2" style="margin-top: 3rem;">
-      <a href="jobs.html" class="btn btn-outline">Browse All Categories <i data-lucide="arrow-right" style="width: 18px;"></i></a>
+      <a href="jobs.html" class="btn btn-outline">Browse All Categories <i data-lucide="arrow-right"
+          style="width: 18px;"></i></a>
     </div>
   </section>
 
@@ -128,7 +138,7 @@
 
       <div class="steps-grid">
         <!-- Connecting Line pseudo element could go here -->
-        
+
         <div class="step-card">
           <div class="step-icon">
             <i data-lucide="user-plus"></i>
@@ -174,7 +184,7 @@
     <p class="section-subtitle">Apply for hand-picked positions from top companies</p>
 
     <div class="jobs-grid text-left" style="text-align: left;">
-      
+
       <!-- Job 1 -->
       <div class="job-card">
         <div class="job-card-header">
@@ -186,7 +196,7 @@
             <span class="company-name">TechCorp Innovations</span>
           </div>
         </div>
-        
+
         <div class="job-badges">
           <span class="badge badge-blue">Full Time</span>
           <span class="badge badge-gold">Remote</span>
@@ -216,7 +226,7 @@
             <span class="company-name">Global Media Group</span>
           </div>
         </div>
-        
+
         <div class="job-badges">
           <span class="badge badge-blue">Full Time</span>
           <span class="badge badge-gold">On-site</span>
@@ -245,7 +255,7 @@
             <span class="company-name">FinTrack Systems</span>
           </div>
         </div>
-        
+
         <div class="job-badges">
           <span class="badge badge-blue">Contract</span>
           <span class="badge badge-green">Mid Level</span>
@@ -264,9 +274,10 @@
       </div>
 
     </div>
-    
+
     <div class="mt-2" style="margin-top: 3rem;">
-      <a href="jobs.html" class="btn btn-secondary">View All Jobs <i data-lucide="arrow-right" style="width: 18px;"></i></a>
+      <a href="jobs.html" class="btn btn-secondary">View All Jobs <i data-lucide="arrow-right"
+          style="width: 18px;"></i></a>
     </div>
   </section>
 
@@ -296,11 +307,17 @@
   <footer class="footer">
     <div class="container">
       <div class="footer-grid">
-        
+
         <div class="footer-col" style="grid-column: span 1;">
-          <a href="index.html" class="footer-brand">JOB<span>WHISPER</span></a>
-          <span class="footer-logo-text">Moving Brains</span>
-          <p style="margin-top: 1rem;">Your ultimate destination for finding your dream job. We connect talent with opportunities worldwide safely and intuitively.</p>
+          <a href="index.html" class="brand-logo-container" style="align-items: flex-start; margin-bottom: 1.5rem;">
+            <svg class="brand-wave" viewBox="0 0 40 10" xmlns="http://www.w3.org/2000/svg" style="left: 35%;">
+              <path d="M0 8 Q 10 0, 20 5 T 40 5 L 40 10 Q 30 10, 20 5 T 0 10 Z" />
+            </svg>
+            <div class="footer-brand">JOB<span>WHISPER</span></div>
+            <div class="footer-logo-text">Moving Brains</div>
+          </a>
+          <p style="margin-top: 1rem;">Your ultimate destination for finding your dream job. We connect talent with
+            opportunities worldwide safely and intuitively.</p>
           <div class="social-links">
             <a href="#"><i data-lucide="facebook" style="width: 20px;"></i></a>
             <a href="#"><i data-lucide="twitter" style="width: 20px;"></i></a>
@@ -353,4 +370,5 @@
     lucide.createIcons();
   </script>
 </body>
+
 </html>

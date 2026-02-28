@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employer Dashboard - JobWhisper</title>
+
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        body {
+            background-color: var(--bg-light);
+        }
+
+        .dashboard-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .dash-sidebar {
+            width: 280px;
+            background: var(--bg-white);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+
+        .dash-logo-area {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .dash-nav {
+            padding: 1.5rem 1rem;
+            flex: 1;
+        }
+
+        .dash-nav a {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            color: var(--text-base);
+            border-radius: var(--radius-md);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .dash-nav a:hover,
+        .dash-nav a.active {
+            background: var(--color-primary-light);
+            color: var(--text-white);
+        }
+
+        .dash-nav a.active {
+            background: var(--color-primary);
+        }
+
+        .dash-logout {
+            padding: 1.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .dash-logout a {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: #dc2626;
+            font-weight: 600;
+        }
+
+        .dash-main {
+            flex: 1;
+            margin-left: 280px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .dash-header {
+            background: var(--bg-white);
+            padding: 1rem 2.5rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 90;
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            background: #e0e7ff;
+            color: #4338ca;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .dash-content {
+            padding: 2.5rem;
+            flex: 1;
+        }
+
+        .dash-title {
+            font-size: 1.8rem;
+            color: var(--color-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .dash-subtitle {
+            color: var(--text-light);
+            margin-bottom: 2rem;
+        }
+
+        .dash-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: var(--bg-white);
+            padding: 2rem;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            transition: all var(--transition-fast);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--color-secondary);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--color-primary-light);
+            color: var(--text-white);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+        }
+
+        .stat-card.blue .stat-icon {
+            background: #3b82f6;
+        }
+
+        .stat-card.orange .stat-icon {
+            background: var(--color-secondary);
+        }
+
+        .stat-card.green .stat-icon {
+            background: #10b981;
+        }
+
+        .stat-info h3 {
+            font-size: 2rem;
+            color: var(--text-dark);
+            margin-bottom: 0.25rem;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .stat-info p {
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .dash-section-card {
+            background: var(--bg-white);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+        }
+
+        .dash-section-header {
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 1.25rem 2rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background: var(--bg-light);
+            font-weight: 600;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        td {
+            color: var(--text-base);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .status-badge {
+            padding: 0.35rem 0.85rem;
+            border-radius: var(--radius-pill);
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .status-active {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status-closed {
+            background: #f3f4f6;
+            color: #4b5563;
+        }
+
+        .mobile-nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--color-primary);
+        }
+
+        @media (max-width: 991px) {
+            .dash-sidebar {
+                transform: translateX(-100%);
+            }
+
+            .dash-sidebar.open {
+                transform: translateX(0);
+            }
+
+            .dash-main {
+                margin-left: 0;
+            }
+
+            .mobile-nav-toggle {
+                display: block;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="dashboard-layout">
+
+        <!-- SIDEBAR -->
+        <aside class="dash-sidebar" id="dashSidebar">
+            <div class="dash-logo-area">
+                <a href="index.html" class="brand-logo" style="font-size: 1.5rem;">
+                    <img src="jobwhisper-logo.png" alt="JobWhisper"
+                        style="height: 35px; margin-right: 5px; object-fit: contain;"
+                        onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <span style="display:none;">JOB<span>WHISPER</span></span>
+                </a>
+            </div>
+
+            <nav class="dash-nav">
+                <a href="employer-dashboard.html" class="active"><i data-lucide="layout-dashboard"></i> Dashboard</a>
+                <a href="post-job.html"><i data-lucide="plus-circle"></i> Post a New Job</a>
+                <a href="#"><i data-lucide="briefcase"></i> Manage Jobs</a>
+                <a href="#"><i data-lucide="users"></i> All Applicants</a>
+                <a href="#"><i data-lucide="building"></i> Company Profile</a>
+            </nav>
+
+            <div class="dash-logout">
+                <a href="index.html"><i data-lucide="log-out"></i> Logout</a>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="dash-main">
+            <!-- Topbar -->
+            <header class="dash-header">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <button class="mobile-nav-toggle"
+                        onclick="document.getElementById('dashSidebar').classList.toggle('open')">
+                        <i data-lucide="menu"></i>
+                    </button>
+                    <div class="search-input-group"
+                        style="background: var(--bg-light); border-radius: var(--radius-pill); padding: 0.5rem 1rem; border: none;">
+                        <i data-lucide="search" style="font-size: 1rem;"></i>
+                        <input type="text" placeholder="Search applicant..."
+                            style="border: none; background: transparent; outline: none; margin-left: 0.5rem; width: 250px;">
+                    </div>
+                </div>
+
+                <div style="display: flex; align-items: center; gap: 1.5rem;">
+                    <button
+                        style="background: none; border: none; position: relative; cursor: pointer; color: var(--text-light);">
+                        <i data-lucide="bell"></i>
+                    </button>
+                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                        <div style="text-align: right; display: none; @media (min-width: 768px) { display: block; }">
+                            <p style="font-weight: 600; color: var(--text-dark); font-size: 0.95rem;">TechCorp HR</p>
+                            <p style="color: var(--text-light); font-size: 0.8rem;">Employer</p>
+                        </div>
+                        <div class="user-avatar">TC</div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <div class="dash-content">
+                <h1 class="dash-title">Employer Dashboard</h1>
+                <p class="dash-subtitle">Overview of your job postings and applicant pipeline.</p>
+
+                <!-- Stats -->
+                <div class="dash-stats-grid">
+                    <div class="stat-card blue">
+                        <div class="stat-icon"><i data-lucide="briefcase"></i></div>
+                        <div class="stat-info">
+                            <h3>5</h3>
+                            <p>Active Jobs</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card orange">
+                        <div class="stat-icon"><i data-lucide="users"></i></div>
+                        <div class="stat-info">
+                            <h3>142</h3>
+                            <p>Total Applicants</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card green">
+                        <div class="stat-icon"><i data-lucide="check-circle"></i></div>
+                        <div class="stat-info">
+                            <h3>24</h3>
+                            <p>Candidates Hired</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Jobs -->
+                <div class="dash-section-card">
+                    <div class="dash-section-header">
+                        <h3 style="font-weight: 700; color: var(--color-primary);">Recent Job Postings</h3>
+                        <a href="post-job.html" class="btn btn-primary"
+                            style="padding: 0.5rem 1rem; font-size: 0.9rem;"><i data-lucide="plus"
+                                style="width: 16px;"></i> Post Job</a>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Job Title</th>
+                                    <th>Applications</th>
+                                    <th>Posted Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <p style="font-weight: 600; color: var(--text-dark);">Senior Frontend Developer
+                                        </p>
+                                        <p style="font-size: 0.85rem; color: var(--text-light);">Full-Time &bull; Remote
+                                        </p>
+                                    </td>
+                                    <td><strong style="color: var(--color-primary);">45</strong> applicants</td>
+                                    <td>Sep 15, 2026</td>
+                                    <td><span class="status-badge status-active">Active</span></td>
+                                    <td>
+                                        <div style="display: flex; gap: 0.5rem;">
+                                            <button class="btn btn-outline" title="View Applicants"
+                                                style="padding: 0.35rem 0.5rem;"><i data-lucide="users"
+                                                    style="width: 16px; height: 16px;"></i></button>
+                                            <button class="btn btn-outline" title="Edit Job"
+                                                style="padding: 0.35rem 0.5rem;"><i data-lucide="edit"
+                                                    style="width: 16px; height: 16px;"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p style="font-weight: 600; color: var(--text-dark);">UI/UX Designer</p>
+                                        <p style="font-size: 0.85rem; color: var(--text-light);">Full-Time &bull;
+                                            On-site</p>
+                                    </td>
+                                    <td><strong style="color: var(--color-primary);">82</strong> applicants</td>
+                                    <td>Sep 01, 2026</td>
+                                    <td><span class="status-badge status-active">Active</span></td>
+                                    <td>
+                                        <div style="display: flex; gap: 0.5rem;">
+                                            <button class="btn btn-outline" style="padding: 0.35rem 0.5rem;"><i
+                                                    data-lucide="users" style="width: 16px; height: 16px;"></i></button>
+                                            <button class="btn btn-outline" style="padding: 0.35rem 0.5rem;"><i
+                                                    data-lucide="edit" style="width: 16px; height: 16px;"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p style="font-weight: 600; color: var(--text-dark);">Backend Developer
+                                            (Node.js)</p>
+                                        <p style="font-size: 0.85rem; color: var(--text-light);">Contract &bull; Remote
+                                        </p>
+                                    </td>
+                                    <td><strong style="color: var(--color-primary);">15</strong> applicants</td>
+                                    <td>Aug 20, 2026</td>
+                                    <td><span class="status-badge status-closed">Closed</span></td>
+                                    <td>
+                                        <div style="display: flex; gap: 0.5rem;">
+                                            <button class="btn btn-outline" style="padding: 0.35rem 0.5rem;" disabled><i
+                                                    data-lucide="users" style="width: 16px; height: 16px;"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>lucide.createIcons();</script>
+</body>
+
+</html>

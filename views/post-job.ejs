@@ -1,0 +1,117 @@
+<%- include('partials/header') %>
+
+            <div class="dash-logout">
+                <a href="/"><i data-lucide="log-out"></i> Logout</a>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="dash-main">
+            <header class="dash-header">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <button class="mobile-nav-toggle" onclick="window.location.href='employer-dashboard.html'"
+                        style="display: block; @media (min-width: 992px) { display: none; }">
+                        <i data-lucide="arrow-left"></i>
+                    </button>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <p style="font-weight: 600; color: var(--text-dark); font-size: 0.95rem;">TechCorp HR</p>
+                    <div class="user-avatar">TC</div>
+                </div>
+            </header>
+
+            <div class="dash-content">
+                <h1 class="dash-title">Post a New Job</h1>
+                <p class="dash-subtitle">Fill out the details below to broadcast your open position to thousands of
+                    candidates.</p>
+
+                <form class="form-card" action="employer-dashboard.html" method="GET">
+
+                    <h3 class="form-section-title">1. Job Details</h3>
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label class="form-label required">Job Title</label>
+                            <input type="text" class="form-control" placeholder="e.g. Senior Product Manager" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label required">Job Category</label>
+                            <select class="form-control" required style="height: auto;">
+                                <option value="" disabled selected>Select a category</option>
+                                <option value="design">Design & Creative</option>
+                                <option value="marketing">Marketing & Sales</option>
+                                <option value="it">IT & Software</option>
+                                <option value="medical">Medical</option>
+                                <option value="finance">Finance</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label required">Job Type</label>
+                            <select class="form-control" required style="height: auto;">
+                                <option value="full-time">Full Time</option>
+                                <option value="part-time">Part Time</option>
+                                <option value="contract">Contract</option>
+                                <option value="internship">Internship</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label required">Experience Level</label>
+                            <select class="form-control" required style="height: auto;">
+                                <option value="entry">Entry Level</option>
+                                <option value="mid">Mid Level</option>
+                                <option value="senior">Senior Level</option>
+                                <option value="director">Director</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label required">Location</label>
+                            <input type="text" class="form-control" placeholder="e.g. Nairobi, Kenya" required>
+                        </div>
+                    </div>
+
+                    <h3 class="form-section-title" style="margin-top: 2rem;">2. Salary & Description</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Minimum Salary (Optional)</label>
+                            <input type="number" class="form-control" placeholder="e.g. 50000">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Maximum Salary (Optional)</label>
+                            <input type="number" class="form-control" placeholder="e.g. 100000">
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label class="form-label required">Job Description</label>
+                            <textarea class="form-control"
+                                placeholder="Provide a detailed description of the role, responsibilities, and team."
+                                rows="6" required></textarea>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label class="form-label required">Requirements / Qualifications</label>
+                            <textarea class="form-control"
+                                placeholder="List the skills, education, and experience required." rows="4"
+                                required></textarea>
+                        </div>
+                    </div>
+
+                    <div
+                        style="margin-top: 2rem; display: flex; justify-content: flex-end; gap: 1rem; border-top: 1px solid var(--border-color); padding-top: 2rem;">
+                        <button type="button" class="btn btn-outline" onclick="window.history.back()">Cancel</button>
+                        <button type="submit" class="btn btn-primary"
+                            style="padding-left: 2rem; padding-right: 2rem;"><i data-lucide="check"></i> Publish
+                            Job</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>lucide.createIcons();</script>
+</body>
+
+</html>

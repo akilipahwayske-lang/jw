@@ -1,8 +1,19 @@
+require('dotenv').config();
 const express = require('express');
 const path = require('path');
+const mongoose = require('mongoose');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+const dns = require('dns');
+// Force Node.js to use a specific DNS server for SRV resolution
+dns.setServers(['8.8.8.8', '8.8.4.4']);
+
+// Database Connection
+mongoose.connect(process.env.MONGODB_URI)
+    .then(() => console.log('Connected to MongoDB Atlas'))
+    .catch(err => console.error('Error connecting to MongoDB:', err.message));
 
 // Set EJS as the view engine
 app.set('view engine', 'ejs');

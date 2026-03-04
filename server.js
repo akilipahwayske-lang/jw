@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const dns = require('node:dns');
 const path = require('path');
 const mongoose = require('mongoose');
 const session = require('express-session');
@@ -29,7 +30,7 @@ app.use(session({
     secret: process.env.SESSION_SECRET || 'jobwhisper_super_secret_key',
     resave: false,
     saveUninitialized: false,
-    store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI }),
+    store: MongoStore.default ? MongoStore.default.create({ mongoUrl: process.env.MONGODB_URI }) : MongoStore.create({ mongoUrl: process.env.MONGODB_URI }),
     cookie: { maxAge: 1000 * 60 * 60 * 24 } // 1 day
 }));
 

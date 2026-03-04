@@ -15,15 +15,16 @@
 
             <!-- SIDEBAR (Filters) -->
             <aside class="sidebar">
-                <form id="filter-form">
+                <form id="filter-form" action="/jobs" method="GET">
                     <!-- Keyword -->
                     <div class="sidebar-widget">
                         <h4 class="sidebar-title">Search Keyword</h4>
                         <div style="position: relative;">
                             <i data-lucide="search"
                                 style="position: absolute; left: 10px; top: 10px; color: var(--text-light); width: 18px;"></i>
-                            <input type="text" class="form-control" placeholder="Job title, keywords..."
-                                style="padding-left: 35px;">
+                            <input type="text" name="search" class="form-control" placeholder="Job title, keywords..."
+                                style="padding-left: 35px;"
+                                value="<%= (typeof query !== 'undefined' && query.search) ? query.search : '' %>">
                         </div>
                     </div>
 
@@ -33,44 +34,66 @@
                         <div style="position: relative;">
                             <i data-lucide="map-pin"
                                 style="position: absolute; left: 10px; top: 10px; color: var(--text-light); width: 18px;"></i>
-                            <input type="text" class="form-control" placeholder="City or region"
-                                style="padding-left: 35px;">
+                            <input type="text" name="location" class="form-control" placeholder="City or region"
+                                style="padding-left: 35px;"
+                                value="<%= (typeof query !== 'undefined' && query.location) ? query.location : '' %>">
                         </div>
                     </div>
 
                     <!-- Category -->
                     <div class="sidebar-widget">
                         <h4 class="sidebar-title">Category</h4>
-                        <label class="checkbox-label"><input type="checkbox" name="cat" value="design"> Design &
-                            Creative (1,240)</label>
-                        <label class="checkbox-label"><input type="checkbox" name="cat" value="marketing"> Marketing &
-                            Sales (850)</label>
-                        <label class="checkbox-label"><input type="checkbox" name="cat" value="it"> IT & Software
-                            (2,150)</label>
-                        <label class="checkbox-label"><input type="checkbox" name="cat" value="medical"> Medical
-                            (4,100)</label>
+                        <label class="checkbox-label"><input type="checkbox" name="cat" value="design" <%=(typeof query
+                                !=='undefined' && query.cat && query.cat.includes('design')) ? 'checked' : '' %>> Design
+                            &
+                            Creative</label>
+                        <label class="checkbox-label"><input type="checkbox" name="cat" value="marketing" <%=(typeof
+                                query !=='undefined' && query.cat && query.cat.includes('marketing')) ? 'checked' : ''
+                                %>> Marketing &
+                            Sales</label>
+                        <label class="checkbox-label"><input type="checkbox" name="cat" value="it" <%=(typeof query
+                                !=='undefined' && query.cat && query.cat.includes('it')) ? 'checked' : '' %>> IT &
+                            Software</label>
+                        <label class="checkbox-label"><input type="checkbox" name="cat" value="medical" <%=(typeof query
+                                !=='undefined' && query.cat && query.cat.includes('medical')) ? 'checked' : '' %>>
+                            Medical</label>
                     </div>
 
                     <!-- Job Type -->
                     <div class="sidebar-widget">
                         <h4 class="sidebar-title">Job Type</h4>
-                        <label class="checkbox-label"><input type="checkbox" name="type" value="full-time"> Full
+                        <label class="checkbox-label"><input type="checkbox" name="type" value="Full-time" <%=(typeof
+                                query !=='undefined' && query.type && query.type.includes('Full-time')) ? 'checked' : ''
+                                %>> Full
                             Time</label>
-                        <label class="checkbox-label"><input type="checkbox" name="type" value="part-time"> Part
+                        <label class="checkbox-label"><input type="checkbox" name="type" value="Part-time" <%=(typeof
+                                query !=='undefined' && query.type && query.type.includes('Part-time')) ? 'checked' : ''
+                                %>> Part
                             Time</label>
-                        <label class="checkbox-label"><input type="checkbox" name="type" value="contract">
+                        <label class="checkbox-label"><input type="checkbox" name="type" value="Contract" <%=(typeof
+                                query !=='undefined' && query.type && query.type.includes('Contract')) ? 'checked' : ''
+                                %>>
                             Contract</label>
-                        <label class="checkbox-label"><input type="checkbox" name="type" value="remote"> Remote</label>
+                        <label class="checkbox-label"><input type="checkbox" name="type" value="Freelance" <%=(typeof
+                                query !=='undefined' && query.type && query.type.includes('Freelance')) ? 'checked' : ''
+                                %>> Freelance</label>
                     </div>
 
-                    <button type="button" class="btn btn-primary" style="width: 100%;">Apply Filters</button>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Apply Filters</button>
+                    <% if (typeof query !=='undefined' && Object.keys(query).length> 0) { %>
+                        <a href="/jobs" class="btn btn-outline"
+                            style="width: 100%; text-align: center; display: block; margin-top: 0.5rem; text-decoration: none;">Clear
+                            Filters</a>
+                        <% } %>
                 </form>
             </aside>
 
             <!-- JOB LISTINGS -->
             <main>
                 <div class="job-listing-header">
-                    <p>Showing <strong>1-10</strong> of <strong>8,300</strong> jobs</p>
+                    <p>Showing <strong>
+                            <%= jobs.length %>
+                        </strong> jobs</p>
                     <select class="sort-select">
                         <option value="newest">Sort by: Newest First</option>
                         <option value="oldest">Sort by: Oldest</option>

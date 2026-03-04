@@ -101,12 +101,23 @@
                     </div>
 
                     <div style="margin-top: 2rem;">
-                        <!-- Can mockup a modal or just show an alert -->
-                        <button class="btn btn-primary"
-                            style="width: 100%; padding: 1rem; font-size: 1.1rem; margin-bottom: 1rem;"
-                            onclick="alert('Application submitted successfully! (Mockup)')">Apply for this Job</button>
-                        <button class="btn btn-outline" style="width: 100%; padding: 1rem;"><i
-                                data-lucide="bookmark"></i> Save Job</button>
+                        <% if (!user) { %>
+                            <a href="/login" class="btn btn-primary"
+                                style="width: 100%; padding: 1rem; font-size: 1.1rem; margin-bottom: 1rem; text-decoration: none; text-align: center; display: block;">Login
+                                to Apply</a>
+                            <% } else if (user.role==='employer' ) { %>
+                                <button class="btn btn-primary"
+                                    style="width: 100%; padding: 1rem; font-size: 1.1rem; margin-bottom: 1rem;"
+                                    disabled>Employers Cannot Apply</button>
+                                <% } else { %>
+                                    <form action="/apply/<%= job._id %>" method="POST" style="margin-bottom: 1rem;">
+                                        <button type="submit" class="btn btn-primary"
+                                            style="width: 100%; padding: 1rem; font-size: 1.1rem;">Apply for this
+                                            Job</button>
+                                    </form>
+                                    <% } %>
+                                        <button class="btn btn-outline" style="width: 100%; padding: 1rem;"><i
+                                                data-lucide="bookmark"></i> Save Job</button>
                     </div>
                 </div>
 

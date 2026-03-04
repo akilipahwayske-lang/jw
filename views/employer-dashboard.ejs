@@ -298,15 +298,15 @@
             </div>
 
             <nav class="dash-nav">
-                <a href="employer-dashboard.html" class="active"><i data-lucide="layout-dashboard"></i> Dashboard</a>
-                <a href="post-job.html"><i data-lucide="plus-circle"></i> Post a New Job</a>
+                <a href="/employer-dashboard" class="active"><i data-lucide="layout-dashboard"></i> Dashboard</a>
+                <a href="/post-job"><i data-lucide="plus-circle"></i> Post a New Job</a>
                 <a href="#"><i data-lucide="briefcase"></i> Manage Jobs</a>
                 <a href="#"><i data-lucide="users"></i> All Applicants</a>
                 <a href="#"><i data-lucide="building"></i> Company Profile</a>
             </nav>
 
             <div class="dash-logout">
-                <a href="index.html"><i data-lucide="log-out"></i> Logout</a>
+                <a href="/logout"><i data-lucide="log-out"></i> Logout</a>
             </div>
         </aside>
 
@@ -378,9 +378,8 @@
                 <div class="dash-section-card">
                     <div class="dash-section-header">
                         <h3 style="font-weight: 700; color: var(--color-primary);">Recent Job Postings</h3>
-                        <a href="post-job.html" class="btn btn-primary"
-                            style="padding: 0.5rem 1rem; font-size: 0.9rem;"><i data-lucide="plus"
-                                style="width: 16px;"></i> Post Job</a>
+                        <a href="/post-job" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;"><i
+                                data-lucide="plus" style="width: 16px;"></i> Post Job</a>
                     </div>
                     <div class="table-container">
                         <table>
@@ -394,62 +393,51 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>
-                                        <p style="font-weight: 600; color: var(--text-dark);">Senior Frontend Developer
-                                        </p>
-                                        <p style="font-size: 0.85rem; color: var(--text-light);">Full-Time &bull; Remote
-                                        </p>
-                                    </td>
-                                    <td><strong style="color: var(--color-primary);">45</strong> applicants</td>
-                                    <td>Sep 15, 2026</td>
-                                    <td><span class="status-badge status-active">Active</span></td>
-                                    <td>
-                                        <div style="display: flex; gap: 0.5rem;">
-                                            <button class="btn btn-outline" title="View Applicants"
-                                                style="padding: 0.35rem 0.5rem;"><i data-lucide="users"
-                                                    style="width: 16px; height: 16px;"></i></button>
-                                            <button class="btn btn-outline" title="Edit Job"
-                                                style="padding: 0.35rem 0.5rem;"><i data-lucide="edit"
-                                                    style="width: 16px; height: 16px;"></i></button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p style="font-weight: 600; color: var(--text-dark);">UI/UX Designer</p>
-                                        <p style="font-size: 0.85rem; color: var(--text-light);">Full-Time &bull;
-                                            On-site</p>
-                                    </td>
-                                    <td><strong style="color: var(--color-primary);">82</strong> applicants</td>
-                                    <td>Sep 01, 2026</td>
-                                    <td><span class="status-badge status-active">Active</span></td>
-                                    <td>
-                                        <div style="display: flex; gap: 0.5rem;">
-                                            <button class="btn btn-outline" style="padding: 0.35rem 0.5rem;"><i
-                                                    data-lucide="users" style="width: 16px; height: 16px;"></i></button>
-                                            <button class="btn btn-outline" style="padding: 0.35rem 0.5rem;"><i
-                                                    data-lucide="edit" style="width: 16px; height: 16px;"></i></button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p style="font-weight: 600; color: var(--text-dark);">Backend Developer
-                                            (Node.js)</p>
-                                        <p style="font-size: 0.85rem; color: var(--text-light);">Contract &bull; Remote
-                                        </p>
-                                    </td>
-                                    <td><strong style="color: var(--color-primary);">15</strong> applicants</td>
-                                    <td>Aug 20, 2026</td>
-                                    <td><span class="status-badge status-closed">Closed</span></td>
-                                    <td>
-                                        <div style="display: flex; gap: 0.5rem;">
-                                            <button class="btn btn-outline" style="padding: 0.35rem 0.5rem;" disabled><i
-                                                    data-lucide="users" style="width: 16px; height: 16px;"></i></button>
-                                        </div>
-                                    </td>
-                                </tr>
+                                <% if (jobs && jobs.length> 0) { %>
+                                    <% jobs.forEach(job=> { %>
+                                        <tr>
+                                            <td>
+                                                <p style="font-weight: 600; color: var(--text-dark);"><a
+                                                        href="/job-detail/<%= job._id %>"
+                                                        style="color: inherit; text-decoration: none;">
+                                                        <%= job.title %>
+                                                    </a></p>
+                                                <p style="font-size: 0.85rem; color: var(--text-light);">
+                                                    <%= job.type %> &bull; <%= job.location %>
+                                                </p>
+                                            </td>
+                                            <td><strong style="color: var(--color-primary);">
+                                                    <%= (typeof applicationCounts !=='undefined' &&
+                                                        applicationCounts[job._id.toString()]) ?
+                                                        applicationCounts[job._id.toString()] : 0 %>
+                                                </strong> applicants</td>
+                                            <td>
+                                                <%= new Date(job.postedAt).toLocaleDateString() %>
+                                            </td>
+                                            <td><span class="status-badge status-active">Active</span></td>
+                                            <td>
+                                                <div style="display: flex; gap: 0.5rem;">
+                                                    <a href="/employer/job/<%= job._id %>/applicants"
+                                                        class="btn btn-outline" title="View Applicants"
+                                                        style="padding: 0.35rem 0.5rem; text-decoration: none; display: flex; align-items: center; justify-content: center;"><i
+                                                            data-lucide="users"
+                                                            style="width: 16px; height: 16px;"></i></a>
+                                                    <button class="btn btn-outline" title="Edit Job"
+                                                        style="padding: 0.35rem 0.5rem;"><i data-lucide="edit"
+                                                            style="width: 16px; height: 16px;"></i></button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <% }) %>
+                                            <% } else { %>
+                                                <tr>
+                                                    <td colspan="5"
+                                                        style="text-align: center; color: var(--text-light); padding: 2rem;">
+                                                        No jobs posted yet. <a href="/post-job">Post your first job
+                                                            here!</a>
+                                                    </td>
+                                                </tr>
+                                                <% } %>
                             </tbody>
                         </table>
                     </div>

@@ -348,7 +348,7 @@
             </nav>
 
             <div class="dash-logout">
-                <a href="index.html"><i data-lucide="log-out"></i> Logout</a>
+                <a href="/logout"><i data-lucide="log-out"></i> Logout</a>
             </div>
         </aside>
 
@@ -378,17 +378,16 @@
                     </button>
                     <div style="display: flex; align-items: center; gap: 0.75rem;">
                         <div style="text-align: right; display: none; @media (min-width: 768px) { display: block; }">
-                            <p style="font-weight: 600; color: var(--text-dark); font-size: 0.95rem;">John Doe</p>
-                            <p style="color: var(--text-light); font-size: 0.8rem;">Candidate</p>
+                            <p style="font-weight: 600; color: var(--text-dark); font-size: 0.95rem;">Candidate</p>
                         </div>
-                        <div class="user-avatar">JD</div>
+                        <div class="user-avatar">C</div>
                     </div>
                 </div>
             </header>
 
             <!-- Dashboard Content -->
             <div class="dash-content">
-                <h1 class="dash-title">Welcome back, John!</h1>
+                <h1 class="dash-title">Welcome to your dashboard!</h1>
                 <p class="dash-subtitle">Here is what is happening with your job applications today.</p>
 
                 <!-- Stats -->
@@ -436,64 +435,52 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>
-                                        <div class="job-title-cell">
-                                            <div class="job-logo"><i data-lucide="linkedin"></i></div>
-                                            <div>
-                                                <p
-                                                    style="font-weight: 600; color: var(--color-primary); margin-bottom: 0.2rem;">
-                                                    UI/UX Designer</p>
-                                                <p style="font-size: 0.85rem; color: var(--text-light);">LinkedIn Corp
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>Oct 12, 2026</td>
-                                    <td><span class="status-badge status-pending">Pending</span></td>
-                                    <td>
-                                        <button class="btn btn-outline"
-                                            style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">View Details</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="job-title-cell">
-                                            <div class="job-logo"><i data-lucide="github"></i></div>
-                                            <div>
-                                                <p
-                                                    style="font-weight: 600; color: var(--color-primary); margin-bottom: 0.2rem;">
-                                                    Frontend Engineer</p>
-                                                <p style="font-size: 0.85rem; color: var(--text-light);">GitHub Inc</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>Oct 09, 2026</td>
-                                    <td><span class="status-badge status-reviewed">Reviewed</span></td>
-                                    <td>
-                                        <button class="btn btn-outline"
-                                            style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">View Details</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="job-title-cell">
-                                            <div class="job-logo"><i data-lucide="figma"></i></div>
-                                            <div>
-                                                <p
-                                                    style="font-weight: 600; color: var(--color-primary); margin-bottom: 0.2rem;">
-                                                    Product Designer</p>
-                                                <p style="font-size: 0.85rem; color: var(--text-light);">Figma</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>Oct 05, 2026</td>
-                                    <td><span class="status-badge status-accepted">Shortlisted</span></td>
-                                    <td>
-                                        <button class="btn btn-outline"
-                                            style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">View Details</button>
-                                    </td>
-                                </tr>
+                                <% if (applications && applications.length> 0) { %>
+                                    <% applications.forEach(app=> { %>
+                                        <tr>
+                                            <td>
+                                                <div class="job-title-cell">
+                                                    <div class="job-logo"><i data-lucide="briefcase"></i></div>
+                                                    <div>
+                                                        <p
+                                                            style="font-weight: 600; color: var(--color-primary); margin-bottom: 0.2rem;">
+                                                            <% if (app.job) { %>
+                                                                <a href="/job-detail/<%= app.job._id %>"
+                                                                    style="color: inherit; text-decoration: none;">
+                                                                    <%= app.job.title %>
+                                                                </a>
+                                                                <% } else { %>
+                                                                    Job Unavailable
+                                                                    <% } %>
+                                                        </p>
+                                                        <p style="font-size: 0.85rem; color: var(--text-light);">
+                                                            <%= app.job ? app.job.company : '' %>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <%= new Date(app.appliedAt).toLocaleDateString() %>
+                                            </td>
+                                            <td><span class="status-badge status-pending">
+                                                    <%= app.status || 'Pending' %>
+                                                </span></td>
+                                            <td>
+                                                <button class="btn btn-outline"
+                                                    style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">View
+                                                    Details</button>
+                                            </td>
+                                        </tr>
+                                        <% }) %>
+                                            <% } else { %>
+                                                <tr>
+                                                    <td colspan="4"
+                                                        style="text-align: center; color: var(--text-light); padding: 2rem;">
+                                                        You haven't applied to any jobs yet. <a href="/jobs">Browse jobs
+                                                            here!</a>
+                                                    </td>
+                                                </tr>
+                                                <% } %>
                             </tbody>
                         </table>
                     </div>

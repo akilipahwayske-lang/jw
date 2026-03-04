@@ -37,11 +37,26 @@
 
             <!-- Actions -->
             <div class="nav-actions">
-                <a href="/login" class="btn btn-outline">Sign In</a>
-                <a href="/post-job" class="btn btn-primary">Post a Job</a>
-                <button class="mobile-menu-btn" id="mobileMenuBtn">
-                    <i data-lucide="menu"></i>
-                </button>
+                <% if (typeof user !=='undefined' && user) { %>
+                    <% if (user.role==='employer' ) { %>
+                        <a href="/employer-dashboard" class="btn btn-outline"
+                            style="min-width: unset; padding: 0.5rem 1rem;">Dashboard</a>
+                        <% } else { %>
+                            <a href="/candidate-dashboard" class="btn btn-outline"
+                                style="min-width: unset; padding: 0.5rem 1rem;">Dashboard</a>
+                            <% } %>
+                                <a href="/logout" class="btn btn-outline"
+                                    style="min-width: unset; padding: 0.5rem 1rem;">Logout</a>
+                                <% if (user.role==='employer' ) { %>
+                                    <a href="/post-job" class="btn btn-primary">Post a Job</a>
+                                    <% } %>
+                                        <% } else { %>
+                                            <a href="/login" class="btn btn-outline">Sign In</a>
+                                            <a href="/signup" class="btn btn-primary">Sign Up</a>
+                                            <% } %>
+                                                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                                                    <i data-lucide="menu"></i>
+                                                </button>
             </div>
         </div>
     </nav>

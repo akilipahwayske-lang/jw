@@ -2,11 +2,15 @@ require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const dns = require('dns');
+// Middleware for parsing request bodies
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 // Force Node.js to use a specific DNS server for SRV resolution
 dns.setServers(['8.8.8.8', '8.8.4.4']);
 
@@ -20,44 +24,48 @@ app.set('view engine', 'ejs');
 // Set the views directory
 app.set('views', path.join(__dirname, 'views'));
 
+// Session Configuration
+app.use(session({
+    secret: process.env.SESSION_SECRET || 'jobwhisper_super_secret_key',
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI }),
+    cookie: { maxAge: 1000 * 60 * 60 * 24 } // 1 day
+}));
+
+// Pass session to all views
+app.use((req, res, next) => {
+    res.locals.user = req.session.userId ? { id: req.session.userId, role: req.session.userRole } : null;
+    next();
+});
+
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
+const authRoutes = require('./routes/authRoutes');
+const jobRoutes = require('./routes/jobRoutes');
+
+app.use('/', authRoutes);
+app.use('/', jobRoutes);
 app.get('/', (req, res) => {
     res.render('index');
 });
 
-app.get('/jobs', (req, res) => {
-    res.render('jobs');
-});
-
-app.get('/job-detail', (req, res) => {
-    res.render('job-detail');
-});
-
-app.get('/employer-dashboard', (req, res) => {
-    res.render('employer-dashboard');
-});
-
-app.get('/candidate-dashboard', (req, res) => {
-    res.render('candidate-dashboard');
-});
+const { isAuthenticated, isEmployer } = require('./middleware/authMiddleware');
 
 app.get('/login', (req, res) => {
+    if (req.session.userId) return res.redirect('/');
     res.render('login');
 });
 
 app.get('/signup', (req, res) => {
+    if (req.session.userId) return res.redirect('/');
     res.render('signup');
 });
 
 app.get('/contact', (req, res) => {
     res.render('contact');
-});
-
-app.get('/post-job', (req, res) => {
-    res.render('post-job');
 });
 
 // 404 Route

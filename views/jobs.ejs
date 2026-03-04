@@ -79,106 +79,57 @@
                 </div>
 
                 <div class="jobs-grid" style="grid-template-columns: 1fr; gap: 1.5rem;">
-
-                    <!-- Job Card 1 -->
-                    <div class="job-card" style="display: flex; gap: 2rem; align-items: center; padding: 1.5rem;">
-                        <div class="company-logo" style="width: 80px; height: 80px; font-size: 2rem;">
-                            <i data-lucide="briefcase"></i>
-                        </div>
-                        <div style="flex: 1;">
-                            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                                <div>
-                                    <h3 style="font-size: 1.3rem; margin-bottom: 0.25rem;"><a
-                                            href="/job-detail">Senior Frontend Developer</a></h3>
-                                    <span class="company-name"
-                                        style="color: var(--color-primary); font-weight: 500;">TechCorp
-                                        Innovations</span>
+                    <% if (jobs && jobs.length> 0) { %>
+                        <% jobs.forEach(job=> { %>
+                            <div class="job-card"
+                                style="display: flex; gap: 2rem; align-items: center; padding: 1.5rem;">
+                                <div class="company-logo" style="width: 80px; height: 80px; font-size: 2rem;">
+                                    <i data-lucide="briefcase"></i>
                                 </div>
-                                <!-- Save Button -->
-                                <button
-                                    style="background: none; border: none; color: var(--text-light); cursor: pointer;"><i
-                                        data-lucide="bookmark"></i></button>
-                            </div>
+                                <div style="flex: 1;">
+                                    <div
+                                        style="display: flex; justify-content: space-between; align-items: flex-start;">
+                                        <div>
+                                            <h3 style="font-size: 1.3rem; margin-bottom: 0.25rem;"><a
+                                                    href="/job-detail/<%= job._id %>">
+                                                    <%= job.title %>
+                                                </a></h3>
+                                            <span class="company-name"
+                                                style="color: var(--color-primary); font-weight: 500;">
+                                                <%= job.company %>
+                                            </span>
+                                        </div>
+                                        <button
+                                            style="background: none; border: none; color: var(--text-light); cursor: pointer;"><i
+                                                data-lucide="bookmark"></i></button>
+                                    </div>
 
-                            <div class="job-meta"
-                                style="flex-direction: row; gap: 1.5rem; margin-top: 1rem; margin-bottom: 1rem;">
-                                <span><i data-lucide="map-pin" style="width: 16px;"></i> Nairobi, KE (Remote)</span>
-                                <span><i data-lucide="clock" style="width: 16px;"></i> Oct 15, 2026</span>
-                                <span style="font-weight: 600; color: var(--text-dark);">Ksh 150k - 200k / mo</span>
-                            </div>
+                                    <div class="job-meta"
+                                        style="flex-direction: row; gap: 1.5rem; margin-top: 1rem; margin-bottom: 1rem;">
+                                        <span><i data-lucide="map-pin" style="width: 16px;"></i>
+                                            <%= job.location %>
+                                        </span>
+                                        <span><i data-lucide="clock" style="width: 16px;"></i>
+                                            <%= new Date(job.postedAt).toLocaleDateString() %>
+                                        </span>
+                                        <span style="font-weight: 600; color: var(--text-dark);">
+                                            <%= job.salary || 'Competitive' %>
+                                        </span>
+                                    </div>
 
-                            <div class="job-badges">
-                                <span class="badge badge-blue">Full Time</span>
-                                <span class="badge badge-gold">Remote</span>
-                                <span class="badge badge-green">Urgent</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Job Card 2 -->
-                    <div class="job-card" style="display: flex; gap: 2rem; align-items: center; padding: 1.5rem;">
-                        <div class="company-logo" style="width: 80px; height: 80px; font-size: 2rem;">
-                            <i data-lucide="building-2"></i>
-                        </div>
-                        <div style="flex: 1;">
-                            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                                <div>
-                                    <h3 style="font-size: 1.3rem; margin-bottom: 0.25rem;"><a
-                                            href="/job-detail">Marketing Manager</a></h3>
-                                    <span class="company-name"
-                                        style="color: var(--color-primary); font-weight: 500;">Global Media Group</span>
+                                    <div class="job-badges">
+                                        <span class="badge badge-blue">
+                                            <%= job.type %>
+                                        </span>
+                                    </div>
                                 </div>
-                                <button
-                                    style="background: none; border: none; color: var(--text-light); cursor: pointer;"><i
-                                        data-lucide="bookmark"></i></button>
                             </div>
-
-                            <div class="job-meta"
-                                style="flex-direction: row; gap: 1.5rem; margin-top: 1rem; margin-bottom: 1rem;">
-                                <span><i data-lucide="map-pin" style="width: 16px;"></i> Mombasa, KE</span>
-                                <span><i data-lucide="clock" style="width: 16px;"></i> Nov 01, 2026</span>
-                                <span style="font-weight: 600; color: var(--text-dark);">Ksh 120k - 180k / mo</span>
-                            </div>
-
-                            <div class="job-badges">
-                                <span class="badge badge-blue">Full Time</span>
-                                <span class="badge badge-gold">On-site</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Job Card 3 -->
-                    <div class="job-card" style="display: flex; gap: 2rem; align-items: center; padding: 1.5rem;">
-                        <div class="company-logo" style="width: 80px; height: 80px; font-size: 2rem;">
-                            <i data-lucide="pie-chart"></i>
-                        </div>
-                        <div style="flex: 1;">
-                            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                                <div>
-                                    <h3 style="font-size: 1.3rem; margin-bottom: 0.25rem;"><a
-                                            href="/job-detail">Data Analyst</a></h3>
-                                    <span class="company-name"
-                                        style="color: var(--color-primary); font-weight: 500;">FinTrack Systems</span>
-                                </div>
-                                <button
-                                    style="background: none; border: none; color: var(--text-light); cursor: pointer;"><i
-                                        data-lucide="bookmark"></i></button>
-                            </div>
-
-                            <div class="job-meta"
-                                style="flex-direction: row; gap: 1.5rem; margin-top: 1rem; margin-bottom: 1rem;">
-                                <span><i data-lucide="map-pin" style="width: 16px;"></i> Nairobi, KE</span>
-                                <span><i data-lucide="clock" style="width: 16px;"></i> Sep 30, 2026</span>
-                                <span style="font-weight: 600; color: var(--text-dark);">Ksh 90k - 130k / mo</span>
-                            </div>
-
-                            <div class="job-badges">
-                                <span class="badge badge-blue">Contract</span>
-                                <span class="badge badge-green">Mid Level</span>
-                            </div>
-                        </div>
-                    </div>
-
+                            <% }) %>
+                                <% } else { %>
+                                    <div style="text-align: center; padding: 3rem; color: var(--text-light);">
+                                        <p>No jobs found matching your criteria.</p>
+                                    </div>
+                                    <% } %>
                 </div>
 
                 <!-- Pagination -->
@@ -201,12 +152,13 @@
             <div class="footer-grid">
                 <div class="footer-col" style="grid-column: span 1;">
                     <a href="/" class="brand-logo-container" style="align-items: flex-start; margin-bottom: 1.5rem;">
-            <svg class="brand-wave" viewBox="0 0 40 10" xmlns="http://www.w3.org/2000/svg" style="left: 35%;">
-              <path d="M0 8 Q 10 0, 20 5 T 40 5 L 40 10 Q 30 10, 20 5 T 0 10 Z" />
-            </svg>
-            <div class="footer-brand">JOB<span>WHISPER</span></div>
-            <div class="footer-logo-text">Moving Brains</div>
-          </a>
+                        <svg class="brand-wave" viewBox="0 0 40 10" xmlns="http://www.w3.org/2000/svg"
+                            style="left: 35%;">
+                            <path d="M0 8 Q 10 0, 20 5 T 40 5 L 40 10 Q 30 10, 20 5 T 0 10 Z" />
+                        </svg>
+                        <div class="footer-brand">JOB<span>WHISPER</span></div>
+                        <div class="footer-logo-text">Moving Brains</div>
+                    </a>
                     <p style="margin-top: 1rem;">Your ultimate destination for finding your dream job. We connect talent
                         with opportunities worldwide safely and intuitively.</p>
                 </div>
@@ -240,6 +192,6 @@
 
     <script src="js/main.js"></script>
     <script>lucide.createIcons();</script>
-</body>
+    </body>
 
-</html>
+    </html>

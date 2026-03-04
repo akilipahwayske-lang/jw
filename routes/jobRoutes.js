@@ -32,6 +32,14 @@ router.get('/jobs', async (req, res) => {
             }
         }
 
+        if (cat) {
+            if (Array.isArray(cat)) {
+                queryObj.category = { $in: cat };
+            } else {
+                queryObj.category = cat;
+            }
+        }
+
         const jobs = await Job.find(queryObj).sort({ postedAt: -1 });
         res.render('jobs', { jobs, query: req.query });
     } catch (err) {
@@ -149,7 +157,7 @@ router.post('/apply/:jobId', isAuthenticated, async (req, res) => {
 
 router.post('/post-job', isAuthenticated, isEmployer, async (req, res) => {
     try {
-        const { title, location, type, salary, description, requirements } = req.body;
+        const { title, location, type, category, salary, description, requirements } = req.body;
 
         let reqArray = [];
         if (requirements) {
@@ -161,6 +169,7 @@ router.post('/post-job', isAuthenticated, isEmployer, async (req, res) => {
             company: res.locals.user ? 'Your Company' : 'Employer', // Alternatively get from user profile
             location,
             type,
+            category,
             salary,
             description,
             requirements: reqArray,

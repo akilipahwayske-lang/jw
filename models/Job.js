@@ -5,6 +5,7 @@ const jobSchema = new mongoose.Schema({
     company: { type: String, required: true },
     location: { type: String, required: true },
     type: { type: String, enum: ['Full-time', 'Part-time', 'Contract', 'Freelance'], default: 'Full-time' },
+    category: { type: String, enum: ['design', 'marketing', 'it', 'medical', 'finance'] },
     description: { type: String, required: true },
     requirements: [String],
     salary: String,

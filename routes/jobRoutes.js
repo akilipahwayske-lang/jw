@@ -1,7 +1,8 @@
-const express = require('express');
 const Job = require('../models/Job');
 const Application = require('../models/Application');
+const User = require('../models/User');
 const { isAuthenticated, isEmployer } = require('../middleware/authMiddleware');
+const upload = require('../middleware/uploadMiddleware');
 
 const router = express.Router();
 
@@ -40,7 +41,7 @@ router.get('/jobs', async (req, res) => {
             }
         }
 
-        const jobs = await Job.find(queryObj).sort({ postedAt: -1 });
+        const jobs = await Job.find(queryObj).populate('employer').sort({ postedAt: -1 });
         res.render('jobs', { jobs, query: req.query });
     } catch (err) {
         console.error(err);
@@ -77,7 +78,23 @@ router.get('/employer-dashboard', isAuthenticated, isEmployer, async (req, res) 
             countMap[item._id.toString()] = item.count;
         });
 
-        res.render('employer-dashboard', { jobs: myJobs, applicationCounts: countMap });
+        // Stats for dashboard
+        const activeJobsCount = myJobs.length;
+        const totalApplicants = await Application.countDocuments({ job: { $in: jobIds } });
+        const shortlistedCount = await Application.countDocuments({
+            job: { $in: jobIds },
+            status: 'Shortlisted'
+        });
+
+        res.render('employer-dashboard', {
+            jobs: myJobs,
+            applicationCounts: countMap,
+            stats: {
+                activeJobs: activeJobsCount,
+                totalApplicants: totalApplicants,
+                shortlisted: shortlistedCount
+            }
+        });
     } catch (err) {
         console.error(err);
         res.status(500).send('Server Error');
@@ -110,7 +127,16 @@ router.get('/candidate-dashboard', isAuthenticated, async (req, res) => {
             .populate('job')
             .sort({ appliedAt: -1 });
 
-        res.render('candidate-dashboard', { applications });
+        const appliedCount = applications.length;
+
+        res.render('candidate-dashboard', {
+            applications,
+            stats: {
+                appliedJobs: appliedCount,
+                savedJobs: 0, // Placeholder
+                profileViews: 12 // Placeholder
+            }
+        });
     } catch (err) {
         console.error(err);
         res.status(500).send('Server Error');
@@ -121,7 +147,7 @@ router.get('/post-job', isAuthenticated, isEmployer, (req, res) => {
     res.render('post-job');
 });
 
-router.post('/apply/:jobId', isAuthenticated, async (req, res) => {
+router.post('/apply/:jobId', isAuthenticated, upload.single('resume'), async (req, res) => {
     if (req.session.userRole === 'employer') {
         return res.status(403).send('Employers cannot apply for jobs.');
     }
@@ -129,6 +155,7 @@ router.post('/apply/:jobId', isAuthenticated, async (req, res) => {
     try {
         const jobId = req.params.jobId;
         const candidateId = req.session.userId;
+        const resumePath = req.file ? `/uploads/resumes/${req.file.filename}` : null;
 
         // Check if application already exists
         const existingApplication = await Application.findOne({ candidate: candidateId, job: jobId });
@@ -139,7 +166,8 @@ router.post('/apply/:jobId', isAuthenticated, async (req, res) => {
 
         const application = new Application({
             candidate: candidateId,
-            job: jobId
+            job: jobId,
+            resumePath: resumePath
         });
 
         await application.save();
@@ -158,6 +186,7 @@ router.post('/apply/:jobId', isAuthenticated, async (req, res) => {
 router.post('/post-job', isAuthenticated, isEmployer, async (req, res) => {
     try {
         const { title, location, type, category, salary, description, requirements } = req.body;
+        const employer = await User.findById(req.session.userId);
 
         let reqArray = [];
         if (requirements) {
@@ -166,7 +195,7 @@ router.post('/post-job', isAuthenticated, isEmployer, async (req, res) => {
 
         const newJob = new Job({
             title,
-            company: res.locals.user ? 'Your Company' : 'Employer', // Alternatively get from user profile
+            company: employer.profile.companyName || 'Employer',
             location,
             type,
             category,
@@ -181,6 +210,27 @@ router.post('/post-job', isAuthenticated, isEmployer, async (req, res) => {
     } catch (err) {
         console.error(err);
         res.status(500).send('Error posting job');
+    }
+});
+
+// Update Application Status
+router.post('/application/:id/status', isAuthenticated, isEmployer, async (req, res) => {
+    try {
+        const { status } = req.body;
+        const application = await Application.findById(req.params.id).populate('job');
+
+        // Security check: only the employer of the job can update status
+        if (application.job.employer.toString() !== req.session.userId) {
+            return res.status(403).send('Unauthorized');
+        }
+
+        application.status = status;
+        await application.save();
+
+        res.redirect(`/employer/job/${application.job._id}/applicants`);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error updating status');
     }
 });
 

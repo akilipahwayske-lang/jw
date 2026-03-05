@@ -66,22 +66,34 @@
                                             <%= new Date(app.appliedAt).toLocaleDateString() %>
                                         </td>
                                         <td>
-                                            <select class="form-control"
-                                                style="padding: 0.25rem; font-size: 0.85rem; height: auto;">
-                                                <option value="Pending" <%=app.status==='Pending' ? 'selected' : '' %>
-                                                    >Pending</option>
-                                                <option value="Reviewed" <%=app.status==='Reviewed' ? 'selected' : '' %>
-                                                    >Reviewed</option>
-                                                <option value="Shortlisted" <%=app.status==='Shortlisted' ? 'selected'
-                                                    : '' %>>Shortlisted</option>
-                                                <option value="Rejected" <%=app.status==='Rejected' ? 'selected' : '' %>
-                                                    >Rejected</option>
-                                            </select>
+                                            <form action="/application/<%= app._id %>/status" method="POST"
+                                                style="display: inline-block;">
+                                                <select name="status" class="form-control"
+                                                    style="padding: 0.25rem; font-size: 0.85rem; height: auto;"
+                                                    onchange="this.form.submit()">
+                                                    <option value="Pending" <%=app.status==='Pending' ? 'selected' : ''
+                                                        %>
+                                                        >Pending</option>
+                                                    <option value="Reviewed" <%=app.status==='Reviewed' ? 'selected'
+                                                        : '' %>
+                                                        >Reviewed</option>
+                                                    <option value="Shortlisted" <%=app.status==='Shortlisted'
+                                                        ? 'selected' : '' %>>Shortlisted</option>
+                                                    <option value="Rejected" <%=app.status==='Rejected' ? 'selected'
+                                                        : '' %>
+                                                        >Rejected</option>
+                                                </select>
+                                            </form>
                                         </td>
                                         <td>
-                                            <button class="btn btn-outline"
-                                                style="padding: 0.35rem 0.75rem; font-size: 0.85rem;">View
-                                                Resume</button>
+                                            <% if (app.resumePath) { %>
+                                                <a href="<%= app.resumePath %>" target="_blank" class="btn btn-outline"
+                                                    style="padding: 0.35rem 0.75rem; font-size: 0.85rem; text-decoration: none;">View
+                                                    Resume</a>
+                                                <% } else { %>
+                                                    <span style="font-size: 0.85rem; color: var(--text-light);">No
+                                                        Resume</span>
+                                                    <% } %>
                                         </td>
                                     </tr>
                                     <% }) %>

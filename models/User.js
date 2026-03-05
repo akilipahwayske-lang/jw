@@ -10,7 +10,8 @@ const userSchema = new mongoose.Schema({
         lastName: String,
         bio: String,
         resumeUrl: String,
-        companyName: String
+        companyName: String,
+        companyLogo: String
     },
     createdAt: { type: Date, default: Date.now }
 });

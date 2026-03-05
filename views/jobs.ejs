@@ -106,8 +106,15 @@
                         <% jobs.forEach(job=> { %>
                             <div class="job-card"
                                 style="display: flex; gap: 2rem; align-items: center; padding: 1.5rem;">
-                                <div class="company-logo" style="width: 80px; height: 80px; font-size: 2rem;">
-                                    <i data-lucide="briefcase"></i>
+                                <div class="company-logo"
+                                    style="width: 80px; height: 80px; font-size: 2rem; overflow: hidden;">
+                                    <% if (job.employer && job.employer.profile && job.employer.profile.companyLogo) {
+                                        %>
+                                        <img src="<%= job.employer.profile.companyLogo %>" alt="Logo"
+                                            style="width: 100%; height: 100%; object-fit: contain;">
+                                        <% } else { %>
+                                            <i data-lucide="briefcase"></i>
+                                            <% } %>
                                 </div>
                                 <div style="flex: 1;">
                                     <div
@@ -149,8 +156,17 @@
                             </div>
                             <% }) %>
                                 <% } else { %>
-                                    <div style="text-align: center; padding: 3rem; color: var(--text-light);">
-                                        <p>No jobs found matching your criteria.</p>
+                                    <div
+                                        style="text-align: center; padding: 5rem 2rem; background: var(--bg-white); border-radius: var(--radius-lg); border: 1px dashed var(--border-color); grid-column: 1 / -1;">
+                                        <div
+                                            style="width: 80px; height: 80px; background: var(--bg-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; color: var(--text-light);">
+                                            <i data-lucide="search" style="width: 40px; height: 40px;"></i>
+                                        </div>
+                                        <h3 style="color: var(--text-dark); margin-bottom: 0.5rem;">No jobs found</h3>
+                                        <p style="color: var(--text-light); margin-bottom: 1.5rem;">We couldn't find any
+                                            jobs matching your current filters. Try adjusting your search or keywords.
+                                        </p>
+                                        <a href="/jobs" class="btn btn-outline">Clear All Filters</a>
                                     </div>
                                     <% } %>
                 </div>

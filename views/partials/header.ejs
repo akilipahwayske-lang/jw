@@ -38,25 +38,31 @@
             <!-- Actions -->
             <div class="nav-actions">
                 <% if (typeof user !=='undefined' && user) { %>
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <a href="<%= user.role === 'employer' ? '/employer-dashboard' : '/candidate-dashboard' %>"
+                            class="user-avatar"
+                            style="width: 40px; height: 40px; font-size: 1rem; border: 2px solid var(--color-primary); cursor: pointer; text-decoration: none;">
+                            <% if (user.role==='employer' && user.profile.companyLogo) { %>
+                                <img src="<%= user.profile.companyLogo %>" alt="Logo"
+                                    style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+                                <% } else { %>
+                                    <%= (user.username ? user.username.charAt(0) : 'U' ).toUpperCase() %>
+                                        <% } %>
+                        </a>
+                        <a href="/logout" class="btn btn-outline"
+                            style="min-width: unset; padding: 0.4rem 0.8rem; font-size: 0.85rem;">Logout</a>
+                    </div>
                     <% if (user.role==='employer' ) { %>
-                        <a href="/employer-dashboard" class="btn btn-outline"
-                            style="min-width: unset; padding: 0.5rem 1rem;">Dashboard</a>
-                        <% } else { %>
-                            <a href="/candidate-dashboard" class="btn btn-outline"
-                                style="min-width: unset; padding: 0.5rem 1rem;">Dashboard</a>
-                            <% } %>
-                                <a href="/logout" class="btn btn-outline"
-                                    style="min-width: unset; padding: 0.5rem 1rem;">Logout</a>
-                                <% if (user.role==='employer' ) { %>
-                                    <a href="/post-job" class="btn btn-primary">Post a Job</a>
-                                    <% } %>
-                                        <% } else { %>
-                                            <a href="/login" class="btn btn-outline">Sign In</a>
-                                            <a href="/signup" class="btn btn-primary">Sign Up</a>
-                                            <% } %>
-                                                <button class="mobile-menu-btn" id="mobileMenuBtn">
-                                                    <i data-lucide="menu"></i>
-                                                </button>
+                        <a href="/post-job" class="btn btn-primary"
+                            style="padding: 0.4rem 1rem; font-size: 0.85rem;">Post Job</a>
+                        <% } %>
+                            <% } else { %>
+                                <a href="/login" class="btn btn-outline">Sign In</a>
+                                <a href="/signup" class="btn btn-primary">Sign Up</a>
+                                <% } %>
+                                    <button class="mobile-menu-btn" id="mobileMenuBtn">
+                                        <i data-lucide="menu"></i>
+                                    </button>
             </div>
         </div>
     </nav>

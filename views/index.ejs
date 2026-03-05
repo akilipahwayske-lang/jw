@@ -8,7 +8,7 @@
         Join JobWhisper and start moving brains today!</p>
 
       <!-- Search Box -->
-      <form class="search-box" action="jobs.html" method="GET">
+      <form class="search-box" action="/jobs" method="GET">
         <div class="search-input-group">
           <i data-lucide="search"></i>
           <input type="text" name="q" placeholder="Job title, keywords, or company">
@@ -134,100 +134,67 @@
     <p class="section-subtitle">Apply for hand-picked positions from top companies</p>
 
     <div class="jobs-grid text-left" style="text-align: left;">
+      <% if (jobs && jobs.length> 0) { %>
+        <% jobs.forEach(job=> { %>
+          <div class="job-card">
+            <div class="job-card-header">
+              <div class="company-logo"
+                style="overflow: hidden; display: flex; align-items: center; justify-content: center;">
+                <% if (job.employer && job.employer.profile && job.employer.profile.companyLogo) { %>
+                  <img src="<%= job.employer.profile.companyLogo %>" alt="Logo"
+                    style="width: 100%; height: 100%; object-fit: contain;">
+                  <% } else { %>
+                    <i data-lucide="briefcase"></i>
+                    <% } %>
+              </div>
+              <div class="job-info">
+                <h3>
+                  <%= job.title %>
+                </h3>
+                <span class="company-name">
+                  <%= job.company %>
+                </span>
+              </div>
+            </div>
 
-      <!-- Job 1 -->
-      <div class="job-card">
-        <div class="job-card-header">
-          <div class="company-logo">
-            <i data-lucide="briefcase"></i>
+            <div class="job-badges">
+              <span class="badge badge-blue">
+                <%= job.type %>
+              </span>
+              <span class="badge badge-gold">
+                <%= job.location %>
+              </span>
+            </div>
+
+            <div class="job-meta">
+              <span><i data-lucide="map-pin" style="width: 16px;"></i>
+                <%= job.location %>
+              </span>
+              <span><i data-lucide="clock" style="width: 16px;"></i> Posted: <%= new
+                  Date(job.postedAt).toLocaleDateString() %></span>
+            </div>
+
+            <div class="job-footer">
+              <div class="job-salary">
+                <%= job.salary || 'Competitive' %>
+              </div>
+              <a href="/job-detail/<%= job._id %>" class="btn btn-primary" style="padding: 0.5rem 1rem;">Apply Now</a>
+            </div>
           </div>
-          <div class="job-info">
-            <h3>Senior Frontend Developer</h3>
-            <span class="company-name">TechCorp Innovations</span>
-          </div>
-        </div>
-
-        <div class="job-badges">
-          <span class="badge badge-blue">Full Time</span>
-          <span class="badge badge-gold">Remote</span>
-          <span class="badge badge-green">Urgent</span>
-        </div>
-
-        <div class="job-meta">
-          <span><i data-lucide="map-pin" style="width: 16px;"></i> Nairobi, KE (Remote Option)</span>
-          <span><i data-lucide="clock" style="width: 16px;"></i> Deadline: Oct 15, 2026</span>
-          <span><i data-lucide="briefcase" style="width: 16px;"></i> 3-5 Years Exp.</span>
-        </div>
-
-        <div class="job-footer">
-          <div class="job-salary">Ksh 150k - 200k <span>/ month</span></div>
-          <a href="/job-detail" class="btn btn-primary" style="padding: 0.5rem 1rem;">Apply Now</a>
-        </div>
-      </div>
-
-      <!-- Job 2 -->
-      <div class="job-card">
-        <div class="job-card-header">
-          <div class="company-logo">
-            <i data-lucide="building-2"></i>
-          </div>
-          <div class="job-info">
-            <h3>Marketing Manager</h3>
-            <span class="company-name">Global Media Group</span>
-          </div>
-        </div>
-
-        <div class="job-badges">
-          <span class="badge badge-blue">Full Time</span>
-          <span class="badge badge-gold">On-site</span>
-        </div>
-
-        <div class="job-meta">
-          <span><i data-lucide="map-pin" style="width: 16px;"></i> Mombasa, KE</span>
-          <span><i data-lucide="clock" style="width: 16px;"></i> Deadline: Nov 01, 2026</span>
-          <span><i data-lucide="briefcase" style="width: 16px;"></i> 5+ Years Exp.</span>
-        </div>
-
-        <div class="job-footer">
-          <div class="job-salary">Ksh 120k - 180k <span>/ month</span></div>
-          <a href="/job-detail" class="btn btn-primary" style="padding: 0.5rem 1rem;">Apply Now</a>
-        </div>
-      </div>
-
-      <!-- Job 3 -->
-      <div class="job-card">
-        <div class="job-card-header">
-          <div class="company-logo">
-            <i data-lucide="pie-chart"></i>
-          </div>
-          <div class="job-info">
-            <h3>Data Analyst</h3>
-            <span class="company-name">FinTrack Systems</span>
-          </div>
-        </div>
-
-        <div class="job-badges">
-          <span class="badge badge-blue">Contract</span>
-          <span class="badge badge-green">Mid Level</span>
-        </div>
-
-        <div class="job-meta">
-          <span><i data-lucide="map-pin" style="width: 16px;"></i> Nairobi, KE</span>
-          <span><i data-lucide="clock" style="width: 16px;"></i> Deadline: Sep 30, 2026</span>
-          <span><i data-lucide="briefcase" style="width: 16px;"></i> 2-4 Years Exp.</span>
-        </div>
-
-        <div class="job-footer">
-          <div class="job-salary">Ksh 90k - 130k <span>/ month</span></div>
-          <a href="/job-detail" class="btn btn-primary" style="padding: 0.5rem 1rem;">Apply Now</a>
-        </div>
-      </div>
-
+          <% }) %>
+            <% } else { %>
+              <div
+                style="grid-column: 1 / -1; text-align: center; padding: 3rem; background: var(--bg-light); border-radius: var(--radius-lg); border: 1px dashed var(--border-color);">
+                <i data-lucide="search"
+                  style="width: 48px; height: 48px; color: var(--text-light); margin-bottom: 1rem;"></i>
+                <p style="color: var(--text-light);">No jobs posted recently. Be the first to post!</p>
+                <a href="/post-job" class="btn btn-outline" style="margin-top: 1rem;">Post a Job</a>
+              </div>
+              <% } %>
     </div>
 
     <div class="mt-2" style="margin-top: 3rem;">
-      <a href="/jobs" class="btn btn-secondary">View All Jobs <i data-lucide="arrow-right"
-          style="width: 18px;"></i></a>
+      <a href="/jobs" class="btn btn-secondary">View All Jobs <i data-lucide="arrow-right" style="width: 18px;"></i></a>
     </div>
   </section>
 

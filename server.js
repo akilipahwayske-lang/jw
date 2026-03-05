@@ -49,8 +49,15 @@ const jobRoutes = require('./routes/jobRoutes');
 
 app.use('/', authRoutes);
 app.use('/', jobRoutes);
-app.get('/', (req, res) => {
-    res.render('index');
+app.get('/', async (req, res) => {
+    try {
+        const Job = require('./models/Job');
+        const jobs = await Job.find({}).populate('employer').sort({ postedAt: -1 }).limit(3);
+        res.render('index', { jobs });
+    } catch (err) {
+        console.error(err);
+        res.render('index', { jobs: [] });
+    }
 });
 
 const { isAuthenticated, isEmployer } = require('./middleware/authMiddleware');

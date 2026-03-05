@@ -19,7 +19,8 @@ const applicationSchema = new mongoose.Schema({
     appliedAt: {
         type: Date,
         default: Date.now
-    }
+    },
+    resumePath: String
 });
 
 // Prevent a candidate from applying to the same job multiple times

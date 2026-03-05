@@ -1,0 +1,105 @@
+<%- include('partials/header') %>
+
+    <div class="dashboard-layout">
+        <!-- SIDEBAR -->
+        <aside class="dash-sidebar" id="dashSidebar">
+            <div class="dash-logo-area">
+                <a href="/" class="brand-logo" style="font-size: 1.5rem;">
+                    <img src="/images/logo-header.png" alt="JobWhisper"
+                        style="height: 35px; margin-right: 5px; object-fit: contain;">
+                </a>
+            </div>
+
+            <nav class="dash-nav">
+                <a href="/employer-dashboard"><i data-lucide="layout-dashboard"></i> Dashboard</a>
+                <a href="/post-job"><i data-lucide="plus-circle"></i> Post a New Job</a>
+                <a href="#"><i data-lucide="briefcase"></i> Manage Jobs</a>
+                <a href="#"><i data-lucide="users"></i> All Applicants</a>
+                <a href="/employer-profile" class="active"><i data-lucide="building"></i> Company Profile</a>
+            </nav>
+
+            <div class="dash-logout">
+                <a href="/logout"><i data-lucide="log-out"></i> Logout</a>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="dash-main">
+            <header class="dash-header">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <button class="mobile-nav-toggle"
+                        onclick="document.getElementById('dashSidebar').classList.toggle('open')">
+                        <i data-lucide="menu"></i>
+                    </button>
+                    <h2 style="font-family: 'Montserrat', sans-serif; font-size: 1.2rem; font-weight: 600;">Company
+                        Profile</h2>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <p style="font-weight: 600; color: var(--text-dark); font-size: 0.95rem;">
+                        <%= userProfile.companyName || 'Your Company' %>
+                    </p>
+                    <div class="user-avatar">
+                        <% if (userProfile.companyLogo) { %>
+                            <img src="<%= userProfile.companyLogo %>" alt="Logo"
+                                style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+                            <% } else { %>
+                                <%= (userProfile.companyName ? userProfile.companyName.charAt(0) : 'E' ).toUpperCase()
+                                    %>
+                                    <% } %>
+                    </div>
+                </div>
+            </header>
+
+            <div class="dash-content">
+                <div style="max-width: 800px;">
+                    <h1 class="dash-title">Company Settings</h1>
+                    <p class="dash-subtitle">Manage your company branding and information displayed on job posts.</p>
+
+                    <form class="dash-section-card" action="/employer-profile" method="POST"
+                        enctype="multipart/form-data" style="padding: 2rem;">
+                        <div class="form-group">
+                            <label class="form-label">Company Logo</label>
+                            <div style="display: flex; align-items: center; gap: 2rem; margin-bottom: 1rem;">
+                                <div
+                                    style="width: 100px; height: 100px; background: var(--bg-light); border-radius: var(--radius-md); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                                    <% if (userProfile.companyLogo) { %>
+                                        <img src="<%= userProfile.companyLogo %>" alt="Current Logo"
+                                            style="width: 100%; height: 100%; object-fit: contain;">
+                                        <% } else { %>
+                                            <i data-lucide="image"
+                                                style="color: var(--text-light); width: 40px; height: 40px;"></i>
+                                            <% } %>
+                                </div>
+                                <div style="flex: 1;">
+                                    <input type="file" name="logo" class="form-control" accept="image/*">
+                                    <p style="font-size: 0.85rem; color: var(--text-light); margin-top: 0.5rem;">
+                                        Recommended: Square image, max 2MB (PNG, JPG).</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Company Name</label>
+                            <input type="text" name="companyName" class="form-control"
+                                value="<%= userProfile.companyName || '' %>" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Company Bio / Description</label>
+                            <textarea name="bio" class="form-control" rows="4"><%= userProfile.bio || '' %></textarea>
+                        </div>
+
+                        <div style="margin-top: 2rem; display: flex; justify-content: flex-end;">
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>lucide.createIcons();</script>
+    </body>
+
+    </html>

@@ -1,6 +1,8 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const User = require('../models/User');
+const { isAuthenticated, isEmployer } = require('../middleware/authMiddleware');
+const upload = require('../middleware/uploadMiddleware');
 
 const router = express.Router();
 
@@ -95,6 +97,37 @@ router.get('/logout', (req, res) => {
         }
         res.redirect('/login');
     });
+});
+
+// Employer Profile Routes
+router.get('/employer-profile', isAuthenticated, isEmployer, async (req, res) => {
+    try {
+        const user = await User.findById(req.session.userId);
+        res.render('employer-profile', { userProfile: user.profile });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error loading profile');
+    }
+});
+
+router.post('/employer-profile', isAuthenticated, isEmployer, upload.single('logo'), async (req, res) => {
+    try {
+        const { companyName, bio } = req.body;
+        const updates = {
+            'profile.companyName': companyName,
+            'profile.bio': bio
+        };
+
+        if (req.file) {
+            updates['profile.companyLogo'] = `/uploads/logos/${req.file.filename}`;
+        }
+
+        await User.findByIdAndUpdate(req.session.userId, { $set: updates });
+        res.redirect('/employer-profile');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error updating profile');
+    }
 });
 
 module.exports = router;

@@ -1,116 +1,101 @@
 <%- include('partials/header') %>
 
-    <div class="dash-logout">
-        <a href="/logout"><i data-lucide="log-out"></i> Logout</a>
-    </div>
-    </aside>
+    <div class="dashboard-layout">
+        <%- include('partials/dashboard-sidebar', { activePage: 'applicants' }) %>
 
-    <!-- MAIN CONTENT -->
-    <main class="dash-main">
-        <header class="dash-header">
-            <div style="display: flex; align-items: center; gap: 1rem;">
-                <button class="mobile-nav-toggle" onclick="window.location.href='/employer-dashboard'"
-                    style="display: block; @media (min-width: 992px) { display: none; }">
-                    <i data-lucide="arrow-left"></i>
-                </button>
-                <a href="/employer-dashboard"
-                    style="color: var(--text-light); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; font-weight: 500;">
-                    <i data-lucide="arrow-left" style="width: 18px;"></i> Back to Dashboard
-                </a>
-            </div>
-            <div style="display: flex; align-items: center; gap: 0.75rem;">
-                <p style="font-weight: 600; color: var(--text-dark); font-size: 0.95rem;">Employer</p>
-                <div class="user-avatar" style="background: var(--color-primary-light); color: var(--color-primary);">E
-                </div>
-            </div>
-        </header>
+            <!-- MAIN CONTENT -->
+            <main class="dash-main">
+                <%- include('partials/dashboard-header', { title: 'Job Applicants' }) %>
 
-        <div class="dash-content">
-            <h1 class="dash-title">Applicants for <%= job.title %>
-            </h1>
-            <p class="dash-subtitle">Review the candidates interested in this position.</p>
+                    <div class="dash-content">
+                        <h1 class="dash-title">Applicants for <%= job.title %>
+                        </h1>
+                        <p class="dash-subtitle">Review the candidates interested in this position.</p>
 
-            <div class="dash-section-card" style="margin-top: 2rem;">
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Candidate</th>
-                                <th>Email</th>
-                                <th>Applied On</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% if (applications && applications.length> 0) { %>
-                                <% applications.forEach(app=> { %>
-                                    <tr>
-                                        <td>
-                                            <div style="display: flex; align-items: center; gap: 1rem;">
-                                                <div
-                                                    style="width: 40px; height: 40px; border-radius: 50%; background: var(--bg-light); display: flex; align-items: center; justify-content: center; font-weight: 600; color: var(--color-primary);">
-                                                    <%= app.candidate.firstName.charAt(0) %>
-                                                        <%= app.candidate.lastName.charAt(0) %>
-                                                </div>
-                                                <p style="font-weight: 600; color: var(--text-dark);">
-                                                    <%= app.candidate.firstName %>
-                                                        <%= app.candidate.lastName %>
-                                                </p>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <%= app.candidate.email %>
-                                        </td>
-                                        <td>
-                                            <%= new Date(app.appliedAt).toLocaleDateString() %>
-                                        </td>
-                                        <td>
-                                            <form action="/application/<%= app._id %>/status" method="POST"
-                                                style="display: inline-block;">
-                                                <select name="status" class="form-control"
-                                                    style="padding: 0.25rem; font-size: 0.85rem; height: auto;"
-                                                    onchange="this.form.submit()">
-                                                    <option value="Pending" <%=app.status==='Pending' ? 'selected' : ''
-                                                        %>
-                                                        >Pending</option>
-                                                    <option value="Reviewed" <%=app.status==='Reviewed' ? 'selected'
-                                                        : '' %>
-                                                        >Reviewed</option>
-                                                    <option value="Shortlisted" <%=app.status==='Shortlisted'
-                                                        ? 'selected' : '' %>>Shortlisted</option>
-                                                    <option value="Rejected" <%=app.status==='Rejected' ? 'selected'
-                                                        : '' %>
-                                                        >Rejected</option>
-                                                </select>
-                                            </form>
-                                        </td>
-                                        <td>
-                                            <% if (app.resumePath) { %>
-                                                <a href="<%= app.resumePath %>" target="_blank" class="btn btn-outline"
-                                                    style="padding: 0.35rem 0.75rem; font-size: 0.85rem; text-decoration: none;">View
-                                                    Resume</a>
-                                                <% } else { %>
-                                                    <span style="font-size: 0.85rem; color: var(--text-light);">No
-                                                        Resume</span>
-                                                    <% } %>
-                                        </td>
-                                    </tr>
-                                    <% }) %>
-                                        <% } else { %>
-                                            <tr>
-                                                <td colspan="5"
-                                                    style="text-align: center; color: var(--text-light); padding: 2rem;">
-                                                    No applicants yet for this position.
-                                                </td>
-                                            </tr>
-                                            <% } %>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </main>
+                        <div class="dash-section-card" style="margin-top: 2rem;">
+                            <div class="table-container">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Candidate</th>
+                                            <th>Email</th>
+                                            <th>Applied On</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% if (applications && applications.length> 0) { %>
+                                            <% applications.forEach(app=> { %>
+                                                <tr>
+                                                    <td>
+                                                        <div style="display: flex; align-items: center; gap: 1rem;">
+                                                            <div
+                                                                style="width: 40px; height: 40px; border-radius: 50%; background: var(--bg-light); display: flex; align-items: center; justify-content: center; font-weight: 600; color: var(--color-primary);">
+                                                                <%= app.candidate.firstName.charAt(0) %>
+                                                                    <%= app.candidate.lastName.charAt(0) %>
+                                                            </div>
+                                                            <p style="font-weight: 600; color: var(--text-dark);">
+                                                                <%= app.candidate.firstName %>
+                                                                    <%= app.candidate.lastName %>
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <%= app.candidate.email %>
+                                                    </td>
+                                                    <td>
+                                                        <%= new Date(app.appliedAt).toLocaleDateString() %>
+                                                    </td>
+                                                    <td>
+                                                        <form action="/application/<%= app._id %>/status" method="POST"
+                                                            style="display: inline-block;">
+                                                            <select name="status" class="form-control"
+                                                                style="padding: 0.25rem; font-size: 0.85rem; height: auto;"
+                                                                onchange="this.form.submit()">
+                                                                <option value="Pending" <%=app.status==='Pending'
+                                                                    ? 'selected' : '' %>
+                                                                    >Pending</option>
+                                                                <option value="Reviewed" <%=app.status==='Reviewed'
+                                                                    ? 'selected' : '' %>
+                                                                    >Reviewed</option>
+                                                                <option value="Shortlisted"
+                                                                    <%=app.status==='Shortlisted' ? 'selected' : '' %>
+                                                                    >Shortlisted</option>
+                                                                <option value="Rejected" <%=app.status==='Rejected'
+                                                                    ? 'selected' : '' %>
+                                                                    >Rejected</option>
+                                                            </select>
+                                                        </form>
+                                                    </td>
+                                                    <td>
+                                                        <% if (app.resumePath) { %>
+                                                            <a href="<%= app.resumePath %>" target="_blank"
+                                                                class="btn btn-outline"
+                                                                style="padding: 0.35rem 0.75rem; font-size: 0.85rem; text-decoration: none;">View
+                                                                Resume</a>
+                                                            <% } else { %>
+                                                                <span
+                                                                    style="font-size: 0.85rem; color: var(--text-light);">No
+                                                                    Resume</span>
+                                                                <% } %>
+                                                    </td>
+                                                </tr>
+                                                <% }) %>
+                                                    <% } else { %>
+                                                        <tr>
+                                                            <td colspan="5"
+                                                                style="text-align: center; color: var(--text-light); padding: 2rem;">
+                                                                No applicants yet for this position.
+                                                            </td>
+                                                        </tr>
+                                                        <% } %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+            </main>
     </div>
 
     <script src="/js/main.js"></script>

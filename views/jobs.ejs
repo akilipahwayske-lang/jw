@@ -18,10 +18,10 @@
                 <form id="filter-form" action="/jobs" method="GET">
                     <!-- Keyword -->
                     <div class="sidebar-widget">
-                        <h4 class="sidebar-title">Search Keyword</h4>
+                        <h4 class="sidebar-title"><i data-lucide="search"></i>Search Keyword</h4>
                         <div style="position: relative;">
                             <i data-lucide="search"
-                                style="position: absolute; left: 10px; top: 10px; color: var(--text-light); width: 18px;"></i>
+                                style="position: absolute; left: 10px; top: 11px; color: var(--text-light); width: 16px;"></i>
                             <input type="text" name="search" class="form-control" placeholder="Job title, keywords..."
                                 style="padding-left: 35px;"
                                 value="<%= (typeof query !== 'undefined' && query.search) ? query.search : '' %>">
@@ -30,10 +30,10 @@
 
                     <!-- Location -->
                     <div class="sidebar-widget">
-                        <h4 class="sidebar-title">Location</h4>
+                        <h4 class="sidebar-title"><i data-lucide="map-pin"></i>Location</h4>
                         <div style="position: relative;">
                             <i data-lucide="map-pin"
-                                style="position: absolute; left: 10px; top: 10px; color: var(--text-light); width: 18px;"></i>
+                                style="position: absolute; left: 10px; top: 11px; color: var(--text-light); width: 16px;"></i>
                             <input type="text" name="location" class="form-control" placeholder="City or region"
                                 style="padding-left: 35px;"
                                 value="<%= (typeof query !== 'undefined' && query.location) ? query.location : '' %>">
@@ -42,41 +42,51 @@
 
                     <!-- Category -->
                     <div class="sidebar-widget">
-                        <h4 class="sidebar-title">Category</h4>
-                        <label class="checkbox-label"><input type="checkbox" name="cat" value="design" <%=(typeof query
-                                !=='undefined' && query.cat && query.cat.includes('design')) ? 'checked' : '' %>> Design
-                            &
-                            Creative</label>
-                        <label class="checkbox-label"><input type="checkbox" name="cat" value="marketing" <%=(typeof
-                                query !=='undefined' && query.cat && query.cat.includes('marketing')) ? 'checked' : ''
-                                %>> Marketing &
-                            Sales</label>
-                        <label class="checkbox-label"><input type="checkbox" name="cat" value="it" <%=(typeof query
-                                !=='undefined' && query.cat && query.cat.includes('it')) ? 'checked' : '' %>> IT &
-                            Software</label>
-                        <label class="checkbox-label"><input type="checkbox" name="cat" value="medical" <%=(typeof query
-                                !=='undefined' && query.cat && query.cat.includes('medical')) ? 'checked' : '' %>>
+                        <h4 class="sidebar-title"><i data-lucide="grid"></i>Category</h4>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="cat" value="design" <%=(typeof query !=='undefined' &&
+                                query.cat && query.cat.includes('design')) ? 'checked' : '' %>>
+                            Design & Creative
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="cat" value="marketing" <%=(typeof query !=='undefined' &&
+                                query.cat && query.cat.includes('marketing')) ? 'checked' : '' %>>
+                            Marketing & Sales
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="cat" value="it" <%=(typeof query !=='undefined' && query.cat &&
+                                query.cat.includes('it')) ? 'checked' : '' %>>
+                            IT & Software
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="cat" value="medical" <%=(typeof query !=='undefined' &&
+                                query.cat && query.cat.includes('medical')) ? 'checked' : '' %>>
                             Medical</label>
                     </div>
 
                     <!-- Job Type -->
                     <div class="sidebar-widget">
-                        <h4 class="sidebar-title">Job Type</h4>
-                        <label class="checkbox-label"><input type="checkbox" name="type" value="Full-time" <%=(typeof
-                                query !=='undefined' && query.type && query.type.includes('Full-time')) ? 'checked' : ''
-                                %>> Full
-                            Time</label>
-                        <label class="checkbox-label"><input type="checkbox" name="type" value="Part-time" <%=(typeof
-                                query !=='undefined' && query.type && query.type.includes('Part-time')) ? 'checked' : ''
-                                %>> Part
-                            Time</label>
-                        <label class="checkbox-label"><input type="checkbox" name="type" value="Contract" <%=(typeof
-                                query !=='undefined' && query.type && query.type.includes('Contract')) ? 'checked' : ''
-                                %>>
-                            Contract</label>
-                        <label class="checkbox-label"><input type="checkbox" name="type" value="Freelance" <%=(typeof
-                                query !=='undefined' && query.type && query.type.includes('Freelance')) ? 'checked' : ''
-                                %>> Freelance</label>
+                        <h4 class="sidebar-title"><i data-lucide="briefcase"></i>Job Type</h4>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="type" value="Full-time" <%=(typeof query !=='undefined' &&
+                                query.type && query.type.includes('Full-time')) ? 'checked' : '' %>>
+                            Full Time
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="type" value="Part-time" <%=(typeof query !=='undefined' &&
+                                query.type && query.type.includes('Part-time')) ? 'checked' : '' %>>
+                            Part Time
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="type" value="Contract" <%=(typeof query !=='undefined' &&
+                                query.type && query.type.includes('Contract')) ? 'checked' : '' %>>
+                            Contract
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="type" value="Freelance" <%=(typeof query !=='undefined' &&
+                                query.type && query.type.includes('Freelance')) ? 'checked' : '' %>>
+                            Freelance
+                        </label>
                     </div>
 
                     <button type="submit" class="btn btn-primary" style="width: 100%;">Apply Filters</button>

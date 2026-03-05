@@ -30,26 +30,25 @@
 
             <form action="/login" method="POST">
                 <div class="form-group">
-                    <label class="form-label" style="text-align: left;">Email Address</label>
+                    <label class="form-label">Email Address</label>
                     <input type="email" class="form-control" name="email" placeholder="you@example.com" required>
                 </div>
 
-                <div class="form-group" style="margin-bottom: 0.5rem;">
+                <div class="form-group">
                     <div style="display: flex; justify-content: space-between;">
-                        <label class="form-label" style="text-align: left;">Password</label>
+                        <label class="form-label">Password</label>
                         <a href="#" style="font-size: 0.85rem; color: var(--color-secondary);">Forgot Password?</a>
                     </div>
                     <input type="password" class="form-control" name="password" placeholder="••••••••" required>
                 </div>
 
-                <div
-                    style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 2rem; text-align: left; margin-top: 1rem;">
-                    <input type="checkbox" id="remember" style="accent-color: var(--color-secondary);">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 2rem; margin-top: 1rem;">
+                    <input type="checkbox" id="remember"
+                        style="accent-color: var(--color-secondary); width: 16px; height: 16px;">
                     <label for="remember" style="font-size: 0.9rem; color: var(--text-base);">Remember me</label>
                 </div>
 
-                <button type="submit" class="btn btn-primary"
-                    style="width: 100%; padding: 1rem; font-size: 1.1rem;">Sign In</button>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Sign In</button>
             </form>
 
             <div class="auth-links">

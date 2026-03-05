@@ -18,36 +18,36 @@
             <form id="signup-form" action="/signup" method="POST">
                 <input type="hidden" id="account-type" name="role" value="candidate">
 
-                <div class="form-row">
+                <div class="form-grid">
                     <div class="form-group">
-                        <label class="form-label" style="text-align: left;">First Name</label>
+                        <label class="form-label">First Name</label>
                         <input type="text" class="form-control" name="firstName" placeholder="John" required>
                     </div>
                     <div class="form-group">
-                        <label class="form-label" style="text-align: left;">Last Name</label>
+                        <label class="form-label">Last Name</label>
                         <input type="text" class="form-control" name="lastName" placeholder="Doe" required>
                     </div>
                 </div>
 
-                <div class="form-group" id="company-field" style="display: none;">
-                    <label class="form-label" style="text-align: left;">Company Name</label>
+                <div class="form-group full-width" id="company-field" style="display: none;">
+                    <label class="form-label">Company Name</label>
                     <input type="text" class="form-control" name="companyName" placeholder="TechCorp Innovations"
                         id="company-input">
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label" style="text-align: left;">Email Address</label>
+                    <label class="form-label">Email Address</label>
                     <input type="email" class="form-control" name="email" placeholder="you@example.com" required>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label" style="text-align: left;">Password</label>
+                    <label class="form-label">Password</label>
                     <input type="password" class="form-control" name="password" placeholder="Create a strong password"
                         required>
                 </div>
 
-                <button type="submit" class="btn btn-primary"
-                    style="width: 100%; padding: 1rem; font-size: 1.1rem; margin-top: 0.5rem;">Create Account</button>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Create
+                    Account</button>
             </form>
 
             <div class="auth-divider">OR</div>

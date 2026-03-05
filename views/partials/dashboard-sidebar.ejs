@@ -1,0 +1,39 @@
+<!-- SIDEBAR -->
+<aside class="dash-sidebar" id="dashSidebar">
+    <div class="dash-logo-area">
+        <a href="/" class="brand-logo" style="font-size: 1.5rem;">
+            <img src="/images/logo-header.png" alt="JobWhisper"
+                style="height: 35px; margin-right: 5px; object-fit: contain;">
+        </a>
+    </div>
+
+    <nav class="dash-nav">
+        <% if (user.role==='employer' ) { %>
+            <a href="/employer-dashboard" class="<%= activePage === 'dashboard' ? 'active' : '' %>"><i
+                    data-lucide="layout-dashboard"></i> Dashboard</a>
+            <a href="/post-job" class="<%= activePage === 'post-job' ? 'active' : '' %>"><i
+                    data-lucide="plus-circle"></i> Post a New Job</a>
+            <a href="#" class="<%= activePage === 'manage-jobs' ? 'active' : '' %>"><i data-lucide="briefcase"></i>
+                Manage Jobs</a>
+            <a href="#" class="<%= activePage === 'applicants' ? 'active' : '' %>"><i data-lucide="users"></i> All
+                Applicants</a>
+            <a href="/employer-profile" class="<%= activePage === 'profile' ? 'active' : '' %>"><i
+                    data-lucide="building"></i> Company Profile</a>
+            <% } else { %>
+                <a href="/candidate-dashboard" class="<%= activePage === 'dashboard' ? 'active' : '' %>"><i
+                        data-lucide="layout-dashboard"></i> My Dashboard</a>
+                <a href="/jobs" class="<%= activePage === 'find-jobs' ? 'active' : '' %>"><i data-lucide="search"></i>
+                    Browse Jobs</a>
+                <a href="#" class="<%= activePage === 'applications' ? 'active' : '' %>"><i data-lucide="file-text"></i>
+                    My Applications</a>
+                <a href="#" class="<%= activePage === 'saved' ? 'active' : '' %>"><i data-lucide="bookmark"></i> Saved
+                    Jobs</a>
+                <a href="#" class="<%= activePage === 'profile' ? 'active' : '' %>"><i data-lucide="user"></i> My
+                    Profile</a>
+                <% } %>
+    </nav>
+
+    <div class="dash-logout">
+        <a href="/logout"><i data-lucide="log-out"></i> Logout</a>
+    </div>
+</aside>

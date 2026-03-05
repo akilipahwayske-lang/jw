@@ -1,3 +1,4 @@
+const express = require('express');
 const Job = require('../models/Job');
 const Application = require('../models/Application');
 const User = require('../models/User');

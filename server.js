@@ -34,10 +34,23 @@ app.use(session({
     cookie: { maxAge: 1000 * 60 * 60 * 24 } // 1 day
 }));
 
-// Pass session to all views
-app.use((req, res, next) => {
-    res.locals.user = req.session.userId ? { id: req.session.userId, role: req.session.userRole } : null;
-    next();
+// Pass session and user data to all views
+app.use(async (req, res, next) => {
+    try {
+        if (req.session.userId) {
+            const User = require('./models/User');
+            const user = await User.findById(req.session.userId);
+            console.log('DEBUG: User fetched in middleware:', JSON.stringify(user, null, 2));
+            res.locals.user = user;
+        } else {
+            res.locals.user = null;
+        }
+        next();
+    } catch (err) {
+        console.error('Error fetching user for locals:', err);
+        res.locals.user = null;
+        next();
+    }
 });
 
 // Serve static files from the 'public' directory

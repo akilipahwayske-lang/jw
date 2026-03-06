@@ -40,7 +40,6 @@ app.use(async (req, res, next) => {
         if (req.session.userId) {
             const User = require('./models/User');
             const user = await User.findById(req.session.userId);
-            console.log('DEBUG: User fetched in middleware:', JSON.stringify(user, null, 2));
             res.locals.user = user;
         } else {
             res.locals.user = null;

@@ -27,7 +27,8 @@
                         <div
                             style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.5rem;">
                             <div>
-                                <h1 class="dash-title">Welcome back, <%= user.profile.firstName %>!</h1>
+                                <h1 class="dash-title">Welcome back, <%= (user.profile && user.profile.firstName) ?
+                                        user.profile.firstName : 'there' %>!</h1>
                                 <p class="dash-subtitle" style="margin-bottom: 0;">Here's an overview of your job
                                     postings and applicant pipeline.</p>
                             </div>

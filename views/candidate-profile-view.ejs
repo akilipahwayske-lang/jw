@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= candidate.profile.firstName %>
+            <%= candidate.profile.lastName %> - JobWhisper
+    </title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="/css/styles.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+    <div class="dashboard-layout">
+        <%- include('partials/dashboard-sidebar', { activePage: 'applicants' }) %>
+
+            <main class="dash-main">
+                <%- include('partials/dashboard-header', { title: 'Candidate Profile' }) %>
+
+                    <div class="dash-content">
+                        <div style="max-width: 800px;">
+                            <a href="javascript:history.back()" class="btn btn-outline"
+                                style="margin-bottom: 2rem; display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none;">
+                                <i data-lucide="arrow-left" style="width: 16px;"></i> Back
+                            </a>
+
+                            <!-- Profile Card -->
+                            <div class="dash-section-card" style="padding: 2.5rem;">
+                                <div
+                                    style="display: flex; align-items: center; gap: 2rem; margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border-color);">
+                                    <div class="user-avatar"
+                                        style="width: 80px; height: 80px; font-size: 2rem; flex-shrink: 0;">
+                                        <%= (candidate.profile && candidate.profile.firstName) ?
+                                            candidate.profile.firstName.charAt(0).toUpperCase() : 'C' %>
+                                    </div>
+                                    <div>
+                                        <h2 style="font-size: 1.8rem; color: var(--text-dark); margin-bottom: 0.2rem;">
+                                            <%= (candidate.profile && candidate.profile.firstName) ?
+                                                candidate.profile.firstName : '' %>
+                                                <%= (candidate.profile && candidate.profile.lastName) ?
+                                                    candidate.profile.lastName : '' %>
+                                        </h2>
+                                        <p style="color: var(--text-light);">Candidate</p>
+                                    </div>
+                                </div>
+
+                                <!-- Bio -->
+                                <% if (candidate.profile && candidate.profile.bio) { %>
+                                    <div style="margin-bottom: 2rem;">
+                                        <h4
+                                            style="font-size: 1rem; color: var(--color-primary); margin-bottom: 0.75rem; font-family: 'Outfit', sans-serif;">
+                                            Professional Bio</h4>
+                                        <p style="color: var(--text-mid); line-height: 1.7;">
+                                            <%= candidate.profile.bio %>
+                                        </p>
+                                    </div>
+                                    <% } %>
+
+                                        <!-- Resume -->
+                                        <% if (candidate.profile && candidate.profile.resumeUrl) { %>
+                                            <div style="margin-bottom: 2rem;">
+                                                <h4
+                                                    style="font-size: 1rem; color: var(--color-primary); margin-bottom: 0.75rem; font-family: 'Outfit', sans-serif;">
+                                                    Resume</h4>
+                                                <a href="<%= candidate.profile.resumeUrl %>" target="_blank"
+                                                    class="btn btn-outline"
+                                                    style="display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none;">
+                                                    <i data-lucide="download" style="width: 16px;"></i> Download Resume
+                                                </a>
+                                            </div>
+                                            <% } else { %>
+                                                <p style="color: var(--text-light); font-style: italic;">No resume
+                                                    uploaded yet.</p>
+                                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+            </main>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>lucide.createIcons();</script>
+</body>
+
+</html>

@@ -13,6 +13,8 @@ const userSchema = new mongoose.Schema({
         companyName: String,
         companyLogo: String
     },
+    savedJobs: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Job' }],
+    profileViews: { type: Number, default: 0 },
     createdAt: { type: Date, default: Date.now }
 });
 

@@ -32,12 +32,20 @@
                                                         <div style="display: flex; align-items: center; gap: 1rem;">
                                                             <div
                                                                 style="width: 40px; height: 40px; border-radius: 50%; background: var(--bg-light); display: flex; align-items: center; justify-content: center; font-weight: 600; color: var(--color-primary);">
-                                                                <%= app.candidate.firstName.charAt(0) %>
-                                                                    <%= app.candidate.lastName.charAt(0) %>
+                                                                <%= (app.candidate.profile &&
+                                                                    app.candidate.profile.firstName) ?
+                                                                    app.candidate.profile.firstName.charAt(0) : '?' %>
+                                                                    <%= (app.candidate.profile &&
+                                                                        app.candidate.profile.lastName) ?
+                                                                        app.candidate.profile.lastName.charAt(0) : '' %>
                                                             </div>
                                                             <p style="font-weight: 600; color: var(--text-dark);">
-                                                                <%= app.candidate.firstName %>
-                                                                    <%= app.candidate.lastName %>
+                                                                <%= (app.candidate.profile &&
+                                                                    app.candidate.profile.firstName) ?
+                                                                    app.candidate.profile.firstName : 'Unknown' %>
+                                                                    <%= (app.candidate.profile &&
+                                                                        app.candidate.profile.lastName) ?
+                                                                        app.candidate.profile.lastName : '' %>
                                                             </p>
                                                         </div>
                                                     </td>
@@ -69,16 +77,17 @@
                                                         </form>
                                                     </td>
                                                     <td>
-                                                        <% if (app.resumePath) { %>
-                                                            <a href="<%= app.resumePath %>" target="_blank"
-                                                                class="btn btn-outline"
+                                                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                                                            <a href="/candidate/<%= app.candidate._id %>/profile"
+                                                                target="_blank" class="btn btn-primary"
                                                                 style="padding: 0.35rem 0.75rem; font-size: 0.85rem; text-decoration: none;">View
-                                                                Resume</a>
-                                                            <% } else { %>
-                                                                <span
-                                                                    style="font-size: 0.85rem; color: var(--text-light);">No
-                                                                    Resume</span>
+                                                                Profile</a>
+                                                            <% if (app.resumePath) { %>
+                                                                <a href="<%= app.resumePath %>" target="_blank"
+                                                                    class="btn btn-outline"
+                                                                    style="padding: 0.35rem 0.75rem; font-size: 0.85rem; text-decoration: none;">Resume</a>
                                                                 <% } %>
+                                                        </div>
                                                     </td>
                                                 </tr>
                                                 <% }) %>

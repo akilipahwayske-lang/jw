@@ -129,8 +129,23 @@
                                             Job</button>
                                     </form>
                                     <% } %>
-                                        <button class="btn btn-outline" style="width: 100%; padding: 1rem;"><i
-                                                data-lucide="bookmark"></i> Save Job</button>
+                                        <% if (user && user.role !=='employer' ) { %>
+                                            <% const isSaved=user.savedJobs && user.savedJobs.some(id=> id.toString()
+                                                === job._id.toString()); %>
+                                                <form action="/job/save/<%= job._id %>" method="POST"
+                                                    style="margin-top: 0.75rem;">
+                                                    <button type="submit" class="btn btn-outline"
+                                                        style="width: 100%; padding: 1rem;">
+                                                        <i
+                                                            data-lucide="<%= isSaved ? 'bookmark-check' : 'bookmark' %>"></i>
+                                                        <%= isSaved ? 'Saved ✓' : 'Save Job' %>
+                                                    </button>
+                                                </form>
+                                                <% } else if (!user) { %>
+                                                    <a href="/login" class="btn btn-outline"
+                                                        style="width: 100%; padding: 1rem; text-align: center; display: block; text-decoration: none; margin-top: 0.75rem;"><i
+                                                            data-lucide="bookmark"></i> Save Job</a>
+                                                    <% } %>
                     </div>
                 </div>
 

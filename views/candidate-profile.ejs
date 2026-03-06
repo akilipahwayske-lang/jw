@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - JobWhisper</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="/css/styles.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+    <div class="dashboard-layout">
+        <%- include('partials/dashboard-sidebar', { activePage: 'profile' }) %>
+
+            <!-- MAIN CONTENT -->
+            <main class="dash-main">
+                <%- include('partials/dashboard-header', { title: 'My Profile' }) %>
+
+                    <div class="dash-content">
+                        <div style="max-width: 800px;">
+                            <h1 class="dash-title">Profile Settings</h1>
+                            <p class="dash-subtitle">Keep your profile up to date to stand out to employers.</p>
+
+                            <% if (typeof successMsg !=='undefined' && successMsg) { %>
+                                <div
+                                    style="background: #d1fae5; border: 1px solid #6ee7b7; color: #065f46; padding: 1rem 1.5rem; border-radius: var(--radius-md); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem;">
+                                    <i data-lucide="check-circle" style="width: 20px; color: #059669;"></i>
+                                    Profile updated successfully!
+                                </div>
+                                <% } %>
+
+                                    <form class="dash-section-card" action="/candidate-profile" method="POST"
+                                        enctype="multipart/form-data" style="padding: 2rem;">
+
+                                        <!-- Name Row -->
+                                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;"
+                                            class="form-row">
+                                            <div class="form-group">
+                                                <label class="form-label">First Name</label>
+                                                <input type="text" name="firstName" class="form-control"
+                                                    value="<%= userProfile.firstName || '' %>" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="form-label">Last Name</label>
+                                                <input type="text" name="lastName" class="form-control"
+                                                    value="<%= userProfile.lastName || '' %>" required>
+                                            </div>
+                                        </div>
+
+                                        <!-- Bio -->
+                                        <div class="form-group">
+                                            <label class="form-label">Professional Bio</label>
+                                            <textarea name="bio" class="form-control" rows="4"
+                                                placeholder="Tell employers about your skills and experience..."><%= userProfile.bio || '' %></textarea>
+                                        </div>
+
+                                        <!-- Resume Upload -->
+                                        <div class="form-group">
+                                            <label class="form-label">Resume (PDF or Word)</label>
+                                            <% if (userProfile.resumeUrl) { %>
+                                                <div
+                                                    style="margin-bottom: 0.75rem; padding: 0.75rem 1rem; background: var(--bg-light); border-radius: var(--radius-md); border: 1px solid var(--border-color); display: flex; align-items: center; gap: 0.75rem;">
+                                                    <i data-lucide="file-text"
+                                                        style="width: 18px; color: var(--color-primary);"></i>
+                                                    <a href="<%= userProfile.resumeUrl %>" target="_blank"
+                                                        style="color: var(--color-primary); font-size: 0.9rem;">Current
+                                                        Resume — click to view</a>
+                                                </div>
+                                                <% } %>
+                                                    <input type="file" name="resume" class="form-control"
+                                                        accept=".pdf,.doc,.docx">
+                                                    <p
+                                                        style="font-size: 0.82rem; color: var(--text-light); margin-top: 0.4rem;">
+                                                        Upload a new file to replace your current resume.</p>
+                                        </div>
+
+                                        <div style="margin-top: 2rem; display: flex; justify-content: flex-end;">
+                                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                                        </div>
+                                    </form>
+                        </div>
+                    </div>
+            </main>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>lucide.createIcons();</script>
+</body>
+
+</html>

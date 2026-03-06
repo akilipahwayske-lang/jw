@@ -130,4 +130,39 @@ router.post('/employer-profile', isAuthenticated, isEmployer, upload.single('log
     }
 });
 
+// Candidate Profile Routes
+router.get('/candidate-profile', isAuthenticated, async (req, res) => {
+    if (req.session.userRole === 'employer') return res.redirect('/employer-profile');
+    try {
+        const user = await User.findById(req.session.userId);
+        const successMsg = req.query.success === '1';
+        res.render('candidate-profile', { userProfile: user.profile || {}, successMsg });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error loading profile');
+    }
+});
+
+router.post('/candidate-profile', isAuthenticated, upload.single('resume'), async (req, res) => {
+    if (req.session.userRole === 'employer') return res.redirect('/employer-profile');
+    try {
+        const { firstName, lastName, bio } = req.body;
+        const updates = {
+            'profile.firstName': firstName,
+            'profile.lastName': lastName,
+            'profile.bio': bio
+        };
+
+        if (req.file) {
+            updates['profile.resumeUrl'] = `/uploads/resumes/${req.file.filename}`;
+        }
+
+        await User.findByIdAndUpdate(req.session.userId, { $set: updates });
+        res.redirect('/candidate-profile?success=1');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error updating profile');
+    }
+});
+
 module.exports = router;

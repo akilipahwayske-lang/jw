@@ -124,18 +124,19 @@ router.get('/candidate-dashboard', isAuthenticated, async (req, res) => {
     }
 
     try {
-        const applications = await Application.find({ candidate: req.session.userId })
-            .populate('job')
-            .sort({ appliedAt: -1 });
-
-        const appliedCount = applications.length;
+        const [applications, fullUser] = await Promise.all([
+            Application.find({ candidate: req.session.userId })
+                .populate('job')
+                .sort({ appliedAt: -1 }),
+            User.findById(req.session.userId)
+        ]);
 
         res.render('candidate-dashboard', {
             applications,
             stats: {
-                appliedJobs: appliedCount,
-                savedJobs: 0, // Placeholder
-                profileViews: 12 // Placeholder
+                appliedJobs: applications.length,
+                savedJobs: fullUser ? (fullUser.savedJobs ? fullUser.savedJobs.length : 0) : 0,
+                profileViews: fullUser ? (fullUser.profileViews || 0) : 0
             }
         });
     } catch (err) {
@@ -232,6 +233,57 @@ router.post('/application/:id/status', isAuthenticated, isEmployer, async (req, 
     } catch (err) {
         console.error(err);
         res.status(500).send('Error updating status');
+    }
+});
+
+// Save / Unsave a Job (toggle)
+router.post('/job/save/:jobId', isAuthenticated, async (req, res) => {
+    if (req.session.userRole === 'employer') return res.status(403).send('Forbidden');
+    try {
+        const user = await User.findById(req.session.userId);
+        const jobId = req.params.jobId;
+        const alreadySaved = user.savedJobs.some(id => id.toString() === jobId);
+
+        if (alreadySaved) {
+            await User.findByIdAndUpdate(req.session.userId, { $pull: { savedJobs: jobId } });
+        } else {
+            await User.findByIdAndUpdate(req.session.userId, { $addToSet: { savedJobs: jobId } });
+        }
+
+        res.redirect(`/job-detail/${jobId}`);
+    } catch (err) {
+        console.error('Save job error:', err);
+        res.status(500).send('Server Error');
+    }
+});
+
+// Saved Jobs Page
+router.get('/saved-jobs', isAuthenticated, async (req, res) => {
+    if (req.session.userRole === 'employer') return res.redirect('/employer-dashboard');
+    try {
+        const user = await User.findById(req.session.userId).populate('savedJobs');
+        res.render('saved-jobs', { savedJobs: user.savedJobs || [] });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+});
+
+// View Candidate Profile (employer-facing, increments view count)
+router.get('/candidate/:id/profile', isAuthenticated, isEmployer, async (req, res) => {
+    try {
+        const candidate = await User.findByIdAndUpdate(
+            req.params.id,
+            { $inc: { profileViews: 1 } },
+            { new: true }
+        );
+        if (!candidate || candidate.role !== 'candidate') {
+            return res.status(404).send('Candidate not found');
+        }
+        res.render('candidate-profile-view', { candidate });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
     }
 });
 
